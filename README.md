@@ -95,9 +95,23 @@ one, and edit:
 - `tag` — tools used
 - `card__metrics` — 2–3 headline numbers (keep them short)
 - `card__body` — bullet points
-- `card__links` — buttons (point `href` at your file / page / Drive link)
+- `card__links` — buttons (see below)
 
 **Remove a project:** delete its entire `<article>` block.
+
+### Link a project button to its real file
+The three modelling cards download the actual Excel/PowerPoint files, which
+live in `data/projects/`. To point a button at a file:
+1. Drop the file into `data/projects/`.
+2. Set the button's `href` to `data/projects/your-file-name.xlsx`, with
+   spaces percent-encoded as `%20` (and commas as `%2C` if the filename has
+   any) — e.g. `data/projects/My%20Model.xlsx`.
+3. Add the `download` attribute so the browser downloads it instead of
+   trying to render it inline (browsers can't preview .xlsx/.pptx).
+
+If you'd rather link to a Google Drive share or a hosted case-study page
+instead of a downloadable file, just swap the `href` for that URL and drop
+the `download` attribute.
 
 ### Add your photo
 1. Save a square image (600×600px+) as `assets/img/profile.jpg`.
@@ -162,8 +176,8 @@ You can later attach a custom domain (e.g. `mayankbharali.com`) under
 
 Things to fill in before sharing the site (search `PLACEHOLDER` in `index.html`):
 
+- [x] LinkedIn URL (contact section button)
+- [x] Revenue forecast, cap table, and GTM plan files → `data/projects/`
 - [ ] Profile photo → `assets/img/profile.jpg`
-- [ ] LinkedIn URL (contact section button)
-- [ ] "View model" / "Case study" links on all four project cards
 - [ ] Link to the hosted HTML slideshow (project 4)
 - [ ] PDF version of the resume (nicer than .docx in a browser)
