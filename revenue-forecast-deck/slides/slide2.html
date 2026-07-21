@@ -1,0 +1,76 @@
+<div class="slide slide-2" data-slide="2">
+  <header class="slide-2__header stagger-in" style="--i:0">
+    <p class="slide-eyebrow eyebrow-ledger">Schedule 2 &mdash; FY2025 Summary</p>
+    <h1 class="slide-title slide-title--serif"><span class="gradient-text">FY2025 at a Glance</span></h1>
+    <p class="slide-2__context">FY loss is driven entirely by fixed overhead &mdash; gross margin of 86.2% confirms strong unit economics at the product level</p>
+  </header>
+
+  <!-- P&L bridge: Gross Revenue steps down through real costs to a net loss.
+       Bar length is proportional to each figure's share of Gross Revenue,
+       set inline by initSlide2() alongside the existing animateNumber calls. -->
+  <div class="bridge stagger-in" style="--i:1">
+    <div class="bridge__step">
+      <div class="bridge__row">
+        <span class="bridge__label">Gross Revenue</span>
+        <span class="bridge__value" id="s2Revenue">&ndash;</span>
+      </div>
+      <div class="bridge__meter"><span class="bridge__fill bridge__fill--revenue" id="s2RevenueBar"></span></div>
+    </div>
+
+    <div class="bridge__delta">
+      <span class="bridge__delta-chip">&minus; Cost of Sales &amp; Refunds &middot; <span id="s2CogsDelta">&ndash;</span></span>
+    </div>
+
+    <div class="bridge__step">
+      <div class="bridge__row">
+        <span class="bridge__label">Gross Profit</span>
+        <span class="bridge__value bridge__value--gain" id="s2GrossProfit">&ndash;</span>
+      </div>
+      <div class="bridge__meter"><span class="bridge__fill bridge__fill--gain" id="s2ProfitBar"></span></div>
+    </div>
+
+    <div class="bridge__delta">
+      <span class="bridge__delta-chip">&minus; Total OpEx &middot; <span id="s2OpEx">&ndash;</span></span>
+    </div>
+
+    <div class="bridge__step">
+      <div class="bridge__row">
+        <span class="bridge__label">EBIT</span>
+        <span class="bridge__value bridge__value--loss" id="s2Ebit">&ndash;</span>
+      </div>
+      <div class="bridge__meter"><span class="bridge__fill bridge__fill--warn" id="s2EbitBar"></span></div>
+    </div>
+
+    <div class="bridge__delta">
+      <span class="bridge__delta-chip">&minus; Tax &amp; Other &middot; <span id="s2OtherDelta">&ndash;</span></span>
+    </div>
+
+    <div class="bridge__step bridge__step--final">
+      <div class="bridge__row">
+        <span class="bridge__label">Net Income <em class="bridge__flag">Loss</em></span>
+        <span class="bridge__value bridge__value--loss" id="s2NetIncome">&ndash;</span>
+      </div>
+      <div class="bridge__meter"><span class="bridge__fill bridge__fill--loss" id="s2NetBar"></span></div>
+    </div>
+  </div>
+
+  <!-- Supporting context stats, alongside the bridge rather than inside it -->
+  <div class="stat-row stagger-in" style="--i:2">
+    <div class="stat-card">
+      <span class="stat-card__label">Total Visitors</span>
+      <span class="stat-card__value" id="s2Visitors">&ndash;</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__label">Total Orders</span>
+      <span class="stat-card__value" id="s2Orders">&ndash;</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__label">Gross Margin %</span>
+      <span class="stat-card__value stat-card__value--gain" id="s2GrossMargin">&ndash;</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__label">Paid CAC</span>
+      <span class="stat-card__value" id="s2PaidCac">&ndash;</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,203 @@
+.slide-4 {
+  gap: 28px;
+}
+
+.slide-4__top {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Hero runway card */
+.slide-4 .s4-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(140% 110% at -10% -10%, rgba(87, 199, 133, 0.22), transparent 55%),
+    var(--surface);
+  border: 1.5px solid color-mix(in srgb, var(--positive) 45%, transparent);
+  box-shadow: 0 8px 24px rgba(87, 199, 133, 0.1);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.slide-4 .s4-hero__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--positive) 70%, var(--text-muted));
+  font-weight: 600;
+}
+
+.slide-4 .s4-hero__figure {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.slide-4 .s4-hero__value {
+  font-size: 80px;
+  font-weight: 800;
+  line-height: 0.95;
+  color: var(--positive);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 8px rgba(87, 199, 133, 0.15);
+}
+
+.slide-4 .s4-hero__unit {
+  font-size: 24px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--positive) 60%, var(--text-muted));
+  letter-spacing: -0.01em;
+}
+
+.slide-4 .s4-hero__sub {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Chart panel */
+.slide-4 .s4-chart {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.slide-4 .s4-chart:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.slide-4 .s4-chart__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--accent) 70%, var(--text-muted));
+  margin-bottom: 16px;
+  letter-spacing: 0.3px;
+}
+
+.slide-4 .s4-chart__canvas {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* KPI row */
+.slide-4__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.slide-4 .s4-kpi {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 26px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  will-change: transform;
+}
+
+/* Left accent bar */
+.slide-4 .s4-kpi::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0.6;
+  transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+.slide-4 .s4-kpi--burn::before {
+  background: var(--warn);
+}
+
+/* Corner glow */
+.slide-4 .s4-kpi::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.slide-4 .s4-kpi--burn::after {
+  background: radial-gradient(circle, color-mix(in srgb, var(--warn) 18%, transparent), transparent 70%);
+}
+
+.slide-4 .s4-kpi:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.slide-4 .s4-kpi--burn:hover {
+  border-color: color-mix(in srgb, var(--warn) 50%, var(--border));
+}
+
+.slide-4 .s4-kpi:hover::before {
+  opacity: 1;
+  width: 4px;
+}
+
+.slide-4 .s4-kpi:hover::after {
+  opacity: 1;
+}
+
+.slide-4 .s4-kpi__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.slide-4 .s4-kpi__value {
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s ease;
+}
+
+.slide-4 .s4-kpi__pct {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.slide-4 .s4-kpi--burn .s4-kpi__value {
+  color: var(--warn);
+}

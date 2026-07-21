@@ -1,0 +1,178 @@
+/* Cover slide with waterfall text animation */
+
+.slide-5 {
+  overflow: hidden;
+  justify-content: center;
+}
+
+/* ---- Ambient background number field ---- */
+.slide-5 .s5-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(1000px 640px at 78% 12%, rgba(79, 140, 255, 0.10), transparent 62%),
+    radial-gradient(820px 560px at 8% 96%, rgba(87, 199, 133, 0.08), transparent 60%);
+  -webkit-mask-image: radial-gradient(120% 120% at 50% 45%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(120% 120% at 50% 45%, #000 55%, transparent 100%);
+}
+
+.slide-5 .s5-num {
+  position: absolute;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--accent-2);
+  white-space: nowrap;
+  will-change: transform, opacity;
+  animation:
+    s5Drift var(--scroll-dur, 22s) linear var(--delay, 0s) infinite,
+    s5Twinkle var(--pulse-dur, 5s) ease-in-out var(--delay, 0s) infinite;
+  opacity: 0.04 !important;
+}
+
+.slide-5 .s5-num--far {
+  filter: blur(2.5px);
+  color: var(--text-muted);
+}
+.slide-5 .s5-num--mid {
+  filter: blur(1px);
+}
+.slide-5 .s5-num--near {
+  filter: blur(0);
+  text-shadow: 0 0 22px rgba(79, 140, 255, 0.25);
+}
+
+.slide-5 .s5-num--green { color: var(--positive); }
+.slide-5 .s5-num--warn { color: var(--warn); }
+
+/* Vertical waterfall scroll from top to bottom */
+@keyframes s5Drift {
+  from {
+    transform: translateY(calc(-120vh + var(--start-offset, 0px)));
+  }
+  to {
+    transform: translateY(calc(120vh + var(--start-offset, 0px)));
+  }
+}
+
+/* Gentle opacity pulse with strong defaults */
+@keyframes s5Twinkle {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 0.16; }
+}
+
+/* ---- Foreground content ---- */
+.slide-5 .s5-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 26px;
+}
+
+.slide-5 .s5-hero__title {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 10px 0 16px;
+}
+
+.slide-5 .s5-hero__title-sub {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+}
+
+.slide-5 .s5-hero__tagline {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 8px;
+  letter-spacing: 0.2px;
+}
+
+.slide-5 .s5-hero__about {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 760px;
+}
+
+.slide-5 .s5-hero__about strong {
+  color: var(--text);
+}
+
+.slide-5 .s5-notes__label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eyebrow);
+  margin-bottom: 14px;
+}
+
+.slide-5 .s5-notes__chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.slide-5 .s5-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 15px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-1) 55%, transparent);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.slide-5 .s5-chip:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-1));
+}
+
+.slide-5 .s5-chip__label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.slide-5 .s5-chip__value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.slide-5 .s5-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.slide-5 .s5-footer__mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  animation: s5Twinkle 3s ease-in-out infinite;
+  --op: 1;
+}

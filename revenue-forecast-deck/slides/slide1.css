@@ -1,0 +1,139 @@
+.slide-1 {
+  gap: 30px;
+}
+
+.slide-1__insight {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 10px;
+  max-width: 720px;
+}
+
+/* Statement strip: three ledger columns divided by hairlines, in place of
+   floating glass KPI cards. Reads as a printed exhibit, not a dashboard. */
+.slide-1__ledger {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+}
+
+.slide-1 .ledger-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 12px;
+  padding: 0 34px;
+}
+
+.slide-1 .ledger-col:first-child {
+  padding-left: 2px;
+}
+
+.slide-1 .ledger-col + .ledger-col {
+  border-left: 1px solid var(--border);
+}
+
+.slide-1 .ledger-col__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+
+.slide-1 .ledger-col--accent .ledger-col__tag {
+  color: var(--ledger);
+}
+
+.slide-1 .ledger-col__value {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.slide-1 .ledger-col--accent .ledger-col__value {
+  color: var(--accent-2);
+}
+
+.slide-1 .ledger-col__rule {
+  height: 1px;
+  background: var(--ledger-soft);
+  transition: background 0.2s ease;
+}
+
+.slide-1 .ledger-col__unit {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+/* Quiet hover: trace the rule and warm the tag, rather than lift + glow. */
+.slide-1 .ledger-col:hover .ledger-col__rule {
+  background: var(--ledger);
+}
+
+.slide-1 .ledger-col:hover .ledger-col__tag {
+  color: var(--ledger);
+}
+
+/* Charts */
+.slide-1__charts {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  min-height: 0;
+}
+
+.slide-1 .chart-panel {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  transition: border-color 0.25s ease;
+}
+
+.slide-1 .chart-panel:hover {
+  border-color: var(--ledger-soft);
+}
+
+.slide-1 .chart-panel__title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.slide-1 .chart-panel__fig {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ledger);
+  flex-shrink: 0;
+}
+
+.slide-1 .chart-panel__canvas {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}

@@ -1,0 +1,297 @@
+{
+  "currency": "INR",
+  "revenue": {
+    "months": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "totalTraffic": [
+      1400,
+      1616,
+      1866.56,
+      2157.3824,
+      2495.133824,
+      2887.6112153599997,
+      3343.9369335295996,
+      3874.787964898304,
+      4492.6652679133795,
+      5212.210341791175,
+      6050.577368045379,
+      7027.870758793155
+    ],
+    "avgConversionRate": [
+      0.0175,
+      0.0175875,
+      0.017675437499999995,
+      0.017763814687499994,
+      0.017852633760937493,
+      0.017941896929742178,
+      0.01803160641439089,
+      0.01812176444646284,
+      0.018212373268695153,
+      0.018303435135038626,
+      0.01839495231071382,
+      0.018486927072267387
+    ],
+    "totalOrders": [
+      26,
+      31,
+      36,
+      42,
+      50,
+      58,
+      68,
+      80,
+      93,
+      110,
+      130,
+      152
+    ],
+    "revenue": [
+      38974,
+      46469,
+      53964,
+      62958,
+      74950,
+      86942,
+      203932,
+      239920,
+      278907,
+      329890,
+      389870,
+      455848
+    ],
+    "fy": {
+      "totalTraffic": 42424.736074331,
+      "totalOrders": 876,
+      "revenue": 2262624
+    }
+  },
+  "summary": {
+    "companyTitle": "SkillMaxx  |  FY 2025 Summary Dashboard",
+    "totalVisitors": 42424.736074331,
+    "totalOrders": 876,
+    "grossRevenue": 2262624,
+    "grossProfit": 1950214.0799999998,
+    "grossMarginPct": 0.8619258347829776,
+    "totalOpEx": 2299597.5992546976,
+    "ebit": -349383.5192546976,
+    "netIncome": -464404.2747671326,
+    "paidCac": 1917.8648957264754
+  },
+  "scenario": {
+    "title": "Scenario Analysis| Bull/Base/Bear | FY 2025",
+    "activeScenario": "Base",
+    "metrics": [
+      {
+        "label": "Organic Traffic Growth Rate",
+        "kind": "percent",
+        "bear": 0.12,
+        "base": 0.18,
+        "bull": 0.22
+      },
+      {
+        "label": "Paid Traffic Growth Rate",
+        "kind": "percent",
+        "bear": 0.08,
+        "base": 0.12,
+        "bull": 0.16
+      },
+      {
+        "label": "Conversion Rate Monthly Improvement",
+        "kind": "percent",
+        "bear": 0.0025,
+        "base": 0.005,
+        "bull": 0.0075
+      },
+      {
+        "label": "Paid Traffic Cost per Click",
+        "kind": "currency",
+        "bear": 25,
+        "base": 20,
+        "bull": 18
+      },
+      {
+        "label": "Refund Rate",
+        "kind": "percent",
+        "bear": 0.07,
+        "base": 0.05,
+        "bull": 0.04
+      }
+    ]
+  },
+  "modelConstants": {
+    "organicTraffic0": 800,
+    "paidTraffic0": 600,
+    "organicConv0": 0.025,
+    "paidConv0": 0.01,
+    "aovH1": 1499,
+    "aovH2": 2999,
+    "paymentFeePct": 0.03,
+    "platformFeePerOrder": 150,
+    "taxRate": 0.3,
+    "initialCapital": 5000000,
+    "salariesH1": 120000,
+    "salariesH2": 150000,
+    "softwareMonthly": 20000,
+    "otherH1": 10000,
+    "otherH2": 15000
+  },
+  "cashRunway": {
+    "months": [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March"
+    ],
+    "openingBalance": [
+      5000000,
+      4869956.08,
+      4744617.5600000005,
+      4623811.640000001,
+      4508573.864000001,
+      4401145.631680001,
+      4301284.171481601,
+      4270015.739259393,
+      4267213.9623705195,
+      4286766.979689643,
+      4334872.278127061,
+      4416709.43317697
+    ],
+    "netCashFlow": [
+      -130043.92,
+      -125338.51999999999,
+      -120805.92000000001,
+      -115237.776,
+      -107428.23232000001,
+      -99861.4601984,
+      -31268.432222208008,
+      -2801.7768888729915,
+      19553.017319123603,
+      48105.298437418416,
+      81837.15504990864,
+      118886.29205589762
+    ],
+    "closingBalance": [
+      4869956.08,
+      4744617.5600000005,
+      4623811.640000001,
+      4508573.864000001,
+      4401145.631680001,
+      4301284.171481601,
+      4270015.739259393,
+      4267213.9623705195,
+      4286766.979689643,
+      4334872.278127061,
+      4416709.43317697,
+      4535595.7252328675
+    ],
+    "summary": {
+      "initialCapital": 5000000,
+      "cashAtFyEnd": 4535595.7252328675,
+      "totalCashBurned": 464404.2747671325,
+      "avgMonthlyBurn": 38700.35623059437,
+      "runwayMonths": 129.19777715243032
+    }
+  },
+  "about": {
+    "aboutHeader": "ABOUT",
+    "notesHeader": "NOTES",
+    "credit": "Made By~  Mayank Bharali",
+    "assumptions": [
+      {
+        "label": "Organic Traffic \u2013 Month 1 (visitors)",
+        "value": 800,
+        "kind": "number"
+      },
+      {
+        "label": "Organic Traffic \u2013 Monthly Growth Rate",
+        "value": 0.18,
+        "kind": "percent"
+      },
+      {
+        "label": "Paid Traffic \u2013 Month 1 (visitors)",
+        "value": 600,
+        "kind": "number"
+      },
+      {
+        "label": "Paid Traffic \u2013 Monthly Growth Rate",
+        "value": 0.12,
+        "kind": "percent"
+      },
+      {
+        "label": "Organic Conversion Rate \u2013 Month 1",
+        "value": 0.025,
+        "kind": "percent"
+      },
+      {
+        "label": "Conversion Rate Monthly Improvement",
+        "value": 0.005,
+        "kind": "percent"
+      },
+      {
+        "label": "Paid Conversion Rate \u2013 Month 1",
+        "value": 0.01,
+        "kind": "percent"
+      },
+      {
+        "label": "Avg Order Value \u2013 Months 1-6 ",
+        "value": 1499,
+        "kind": "currency"
+      },
+      {
+        "label": "Avg Order Value \u2013 Months 7-12 ",
+        "value": 2999,
+        "kind": "currency"
+      },
+      {
+        "label": "Refund Rate",
+        "value": 0.05,
+        "kind": "percent"
+      },
+      {
+        "label": "Payment Processing Fee (%)",
+        "value": 0.03,
+        "kind": "percent"
+      },
+      {
+        "label": "Platform Fee per Order ",
+        "value": 150,
+        "kind": "currency"
+      },
+      {
+        "label": "Paid Traffic (Cost per paid click)",
+        "value": 20,
+        "kind": "currency"
+      },
+      {
+        "label": "Tax Rate ",
+        "value": 0.3,
+        "kind": "percent"
+      },
+      {
+        "label": "Initial Cap",
+        "value": 5000000,
+        "kind": "currency"
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+<div class="slide slide-3" data-slide="3">
+  <header class="slide-3__header stagger-in" style="--i:0">
+    <p class="slide-eyebrow eyebrow-ledger">Schedule 3 &mdash; Scenario Analysis</p>
+    <h1 class="slide-title slide-title--serif"><span class="gradient-text">Bear &middot; Base &middot; Bull</span></h1>
+  </header>
+
+  <div class="slide-3__controls stagger-in" style="--i:1">
+    <div class="s3-toggle" id="s3Toggle"></div>
+    <p class="slide-3__hint">Model toggled to <strong id="s3ActiveName">Base</strong></p>
+  </div>
+
+  <div class="slide-3__cards" id="s3Cards"></div>
+
+  <!-- Custom what-if sandbox: shown in place of the three preset cards when
+       the "Custom" toggle is active. Editable inputs default to Base's
+       assumptions and recompute live via the same runScenarioModel() used
+       for the outputs table below. -->
+  <div class="slide-3__custom" id="s3Custom" hidden>
+    <div class="s3-custom__inputs">
+      <label class="s3-custom__field">
+        <span class="s3-custom__label">Organic Traffic Growth</span>
+        <span class="s3-custom__input-wrap"><input type="number" id="s3CustomOrganicGrowth" step="0.1" /><span class="s3-custom__unit">%</span></span>
+      </label>
+      <label class="s3-custom__field">
+        <span class="s3-custom__label">Paid Traffic Growth</span>
+        <span class="s3-custom__input-wrap"><input type="number" id="s3CustomPaidGrowth" step="0.1" /><span class="s3-custom__unit">%</span></span>
+      </label>
+      <label class="s3-custom__field">
+        <span class="s3-custom__label">Conv. Rate Improvement</span>
+        <span class="s3-custom__input-wrap"><input type="number" id="s3CustomConvImprove" step="0.01" /><span class="s3-custom__unit">%</span></span>
+      </label>
+      <label class="s3-custom__field">
+        <span class="s3-custom__label">Paid Traffic CPC</span>
+        <span class="s3-custom__input-wrap"><span class="s3-custom__unit s3-custom__unit--prefix">&#8377;</span><input type="number" id="s3CustomCpc" step="0.5" /></span>
+      </label>
+      <label class="s3-custom__field">
+        <span class="s3-custom__label">Refund Rate</span>
+        <span class="s3-custom__input-wrap"><input type="number" id="s3CustomRefund" step="0.1" /><span class="s3-custom__unit">%</span></span>
+      </label>
+    </div>
+    <div class="s3-custom__outputs">
+      <div class="s3-custom__out">
+        <span class="s3-custom__out-label">FY Revenue</span>
+        <span class="s3-custom__out-value" id="s3CustomOutRevenue">&ndash;</span>
+      </div>
+      <div class="s3-custom__out">
+        <span class="s3-custom__out-label">Net Income</span>
+        <span class="s3-custom__out-value" id="s3CustomOutNetIncome">&ndash;</span>
+      </div>
+      <div class="s3-custom__out">
+        <span class="s3-custom__out-label">Cash Balance (End)</span>
+        <span class="s3-custom__out-value" id="s3CustomOutCash">&ndash;</span>
+      </div>
+      <div class="s3-custom__out">
+        <span class="s3-custom__out-label">Runway</span>
+        <span class="s3-custom__out-value" id="s3CustomOutRunway">&ndash;</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-3__outputs stagger-in" style="--i:2">
+    <h2 class="slide-3__outputs-label eyebrow-ledger">Impact on Key Metrics</h2>
+    <div class="s3-outputs-table">
+      <div class="s3-outputs-row s3-outputs-row--header">
+        <div class="s3-outputs-cell s3-outputs-cell--metric">Metric</div>
+        <div class="s3-outputs-cell s3-outputs-cell--scenario s3-outputs-cell--bear">Bear Case</div>
+        <div class="s3-outputs-cell s3-outputs-cell--scenario s3-outputs-cell--base">Base Case</div>
+        <div class="s3-outputs-cell s3-outputs-cell--scenario s3-outputs-cell--bull">Bull Case</div>
+      </div>
+      <div class="s3-outputs-row">
+        <div class="s3-outputs-cell s3-outputs-cell--metric">FY Revenue</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBearRevenue">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBaseRevenue">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBullRevenue">–</div>
+      </div>
+      <div class="s3-outputs-row">
+        <div class="s3-outputs-cell s3-outputs-cell--metric">Net Income</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBearLoss">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBaseLoss">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBullLoss">–</div>
+      </div>
+      <div class="s3-outputs-row">
+        <div class="s3-outputs-cell s3-outputs-cell--metric">Cash Balance (End)</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBearCash">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBaseCash">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBullCash">–</div>
+      </div>
+      <div class="s3-outputs-row">
+        <div class="s3-outputs-cell s3-outputs-cell--metric">Runway (months)</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBearRunway">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBaseRunway">–</div>
+        <div class="s3-outputs-cell s3-outputs-cell--value" id="s3OutBullRunway">–</div>
+      </div>
+    </div>
+  </div>
+</div>

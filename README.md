@@ -17,9 +17,12 @@ Portfolio Website/
 ├── js/
 │   └── main.js       ← all animations & interactions
 ├── data/
-│   └── Mayank_Bharali_Resume_...docx   ← resume (linked by the ↓ buttons)
+│   ├── Mayank_Bharali_Resume_...docx   ← resume (linked by the ↓ buttons)
+│   └── projects/     ← downloadable model files (xlsx/pptx) for the project cards
 ├── assets/
 │   └── img/          ← put your photo & project screenshots here
+├── revenue-forecast-deck/   ← standalone HTML slide deck (its own mini site —
+│                              own index.html/css/js, opened by "Open slideshow")
 └── README.md         ← this file
 ```
 
@@ -143,6 +146,17 @@ Drop the new file into `data/` and update the two links that point at it
 (one in the nav, one in the contact section — search for `data/` in
 `index.html`). A PDF is recommended over .docx so it opens in the browser.
 
+### Update the HTML slideshow deck
+The "Open slideshow" card links to `revenue-forecast-deck/index.html` — a
+self-contained mini site with its own `index.html`, `css/`, `js/`, `slides/`
+and `data/deck_data.json`. It's a separate app, not part of the main page:
+- To update the numbers it shows, regenerate `revenue-forecast-deck/data/deck_data.json`
+  from the source Excel model and drop it in (same filename).
+- To edit a slide's content or styling, edit `revenue-forecast-deck/slides/slideN.html`
+  / `.css` directly.
+- It opens in a new tab (`target="_blank"` on the card's link) since it's a
+  full-screen presentation with its own navigation.
+
 ### Change fonts
 Fonts are loaded in `index.html`'s `<head>` (Google Fonts link) and mapped
 in `style.css` block `[0]` (`--font-display`, `--font-body`, `--font-mono`).
@@ -178,6 +192,6 @@ Things to fill in before sharing the site (search `PLACEHOLDER` in `index.html`)
 
 - [x] LinkedIn URL (contact section button)
 - [x] Revenue forecast, cap table, and GTM plan files → `data/projects/`
+- [x] HTML slideshow deck → `revenue-forecast-deck/`
 - [ ] Profile photo → `assets/img/profile.jpg`
-- [ ] Link to the hosted HTML slideshow (project 4)
 - [ ] PDF version of the resume (nicer than .docx in a browser)
