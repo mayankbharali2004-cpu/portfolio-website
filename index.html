@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ============================================================
+       MAYANK BHARALI — PORTFOLIO
+       ------------------------------------------------------------
+       HOW THIS FILE IS ORGANISED (top to bottom):
+         1. <head>   : metadata, fonts, stylesheet link
+         2. <nav>    : sticky top navigation (sheet-tab style)
+         3. <header> : hero — headline + animated "live model" panel
+         4. <main>   : sections in order:
+              #about      — bio, photo placeholder, quick facts
+              (ticker)    — scrolling marquee of current interests
+              #projects   — project cards (the core of the site)
+              #skills     — toolkit grouped as ledger rows
+              #experience — internship, certifications, education
+              #contact    — email / LinkedIn / resume CTA
+         5. <footer> : small print
+         6. <script> : js/main.js (all animations live there)
+
+       DESIGN CONCEPT: "the workbook".
+       Because the portfolio is built on Excel models, the site
+       borrows spreadsheet vernacular — section labels look like
+       formulas, project cards behave like selected cells, and the
+       hero shows a live model output. Search for the word
+       "PLACEHOLDER" in this file to find everything you still
+       need to fill in (links, photo, etc.).
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mayank Bharali — Finance × AI Portfolio</title>
+  <meta name="description" content="Portfolio of Mayank Bharali — finance student building financial models, valuation tools and AI-powered workflows. Revenue forecasting, cap table modelling, GTM strategy." />
+
+  <!-- Fonts: Young Serif (display headlines), Schibsted Grotesk (body),
+       IBM Plex Mono (all numbers / labels — has tabular numerals so
+       figures line up like a real spreadsheet). Loaded from Google
+       Fonts; works fine on Cloudflare Pages. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Simple inline favicon: a green square, like a selected cell -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%230A6B3D'/><text x='8' y='12' font-size='10' text-anchor='middle' fill='white' font-family='monospace'>M</text></svg>" />
+</head>
+<body>
+
+  <!-- ==========================================================
+       NAVIGATION
+       Sticky bar. Links are styled like spreadsheet sheet-tabs.
+       The JS highlights whichever section is currently on screen.
+       To add a nav item: copy one <a> and point href at a section id.
+       ========================================================== -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <!-- Logo mark: initials inside a "cell" -->
+      <a href="#top" class="nav__logo" aria-label="Back to top">
+        <span class="nav__logo-cell">MB</span>
+        <span class="nav__logo-name">Mayank&nbsp;Bharali</span>
+      </a>
+
+      <!-- Hamburger button, only visible on mobile (JS toggles menu) -->
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav__links" id="navLinks">
+        <a href="#about"      class="nav__link">About</a>
+        <a href="#projects"   class="nav__link">Projects</a>
+        <a href="#skills"     class="nav__link">Toolkit</a>
+        <a href="#experience" class="nav__link">Experience</a>
+        <a href="#contact"    class="nav__link">Contact</a>
+        <!-- PLACEHOLDER: replace href with your resume PDF when ready.
+             Currently points at the Word file in /data. -->
+        <a href="data/Mayank_Bharali_Resume_DEShaw_FinRes.docx" class="nav__cta" download>Résumé ↓</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================
+       HERO
+       Left: eyebrow + headline + subline + CTAs.
+       Right: the "live model" panel — an SVG sparkline that draws
+       itself on page load, plus three metrics that count up.
+       The numbers come from the real revenue-forecast project.
+       All animation logic is in js/main.js (search "HERO").
+       ========================================================== -->
+  <header class="hero" id="top">
+    <div class="hero__inner">
+
+      <div class="hero__copy">
+        <!-- Eyebrow styled like a formula — the site's signature motif -->
+        <p class="formula hero__eyebrow">=PROFILE(&quot;Finance × AI&quot;)</p>
+
+        <h1 class="hero__title">
+          Turning messy numbers into
+          <em>decision-ready</em> models.
+        </h1>
+
+        <p class="hero__sub">
+          I'm <strong>Mayank Bharali</strong> — a B.Com (Honours, Finance) student at
+          CHRIST University, Bengaluru. I build financial models in Excel, research
+          go-to-market strategy, and use AI tools like Claude Code to make both
+          faster. Currently exploring valuation, AI agents and workflow automation.
+        </p>
+
+        <div class="hero__actions">
+          <a href="#projects" class="btn btn--primary">See the projects</a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+
+        <!-- Small trust line under the buttons -->
+        <p class="hero__meta mono">Bengaluru, India · Open to financial research roles</p>
+      </div>
+
+      <!-- The live model panel (signature element) -->
+      <div class="hero__panel" aria-label="Highlights from the 12-month revenue forecast model">
+        <!-- Fake window/sheet-tab header -->
+        <div class="panel__bar">
+          <span class="panel__tab panel__tab--active mono">forecast.xlsx</span>
+          <span class="panel__tab mono">cap_table.xlsx</span>
+          <span class="panel__status mono">● live output</span>
+        </div>
+
+        <div class="panel__body">
+          <!-- Sparkline: 12 monthly revenue points. The path "draws"
+               itself using stroke-dashoffset (see js/main.js).
+               The dashed vertical line marks Month 9 = break-even. -->
+          <svg class="panel__chart" viewBox="0 0 320 120" role="img" aria-label="Revenue ramp over 12 months, break-even at month 9">
+            <!-- light grid, like cell borders -->
+            <g class="chart__grid">
+              <line x1="0" y1="30" x2="320" y2="30"/>
+              <line x1="0" y1="60" x2="320" y2="60"/>
+              <line x1="0" y1="90" x2="320" y2="90"/>
+            </g>
+            <!-- soft area fill under the curve -->
+            <path class="chart__area" d="M10,112 L38,108 L66,103 L94,96 L122,90 L150,82 L178,72 L206,60 L234,46 L262,34 L290,20 L310,12 L310,120 L10,120 Z"/>
+            <!-- the revenue line itself (animated) -->
+            <path class="chart__line" id="chartLine" d="M10,112 L38,108 L66,103 L94,96 L122,90 L150,82 L178,72 L206,60 L234,46 L262,34 L290,20 L310,12"/>
+            <!-- break-even marker at month 9 -->
+            <line class="chart__marker" x1="234" y1="10" x2="234" y2="115"/>
+            <text class="chart__marker-label mono" x="238" y="18">M9 break-even</text>
+            <!-- end-point dot -->
+            <circle class="chart__dot" cx="310" cy="12" r="4"/>
+          </svg>
+
+          <!-- Metric rows. data-count / data-decimals / data-prefix /
+               data-suffix drive the count-up animation in main.js. -->
+          <dl class="panel__metrics">
+            <div class="metric">
+              <dt class="metric__label mono">Projected FY revenue</dt>
+              <dd class="metric__value mono" data-count="22.6" data-decimals="1" data-prefix="₹" data-suffix="L+">₹0.0L+</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label mono">Base-case break-even</dt>
+              <dd class="metric__value mono" data-count="9" data-prefix="Month ">Month 0</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label mono">Funding rounds modelled</dt>
+              <dd class="metric__value mono" data-count="3" data-suffix=" + SAFE">0 + SAFE</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll hint at the bottom of the hero -->
+    <a href="#about" class="hero__scroll mono" aria-label="Scroll to about section">scroll ↓</a>
+  </header>
+
+  <main>
+
+    <!-- ==========================================================
+         ABOUT
+         Two columns: photo placeholder + narrative, then a row of
+         "quick fact" cells underneath.
+         Every section uses the same skeleton:
+           <section class="section" id="...">
+             <div class="section__head"> formula eyebrow + title </div>
+             ...content...
+           </section>
+         The class "reveal" on any element makes it fade-slide in
+         when scrolled into view (handled by js/main.js).
+         ========================================================== -->
+    <section class="section" id="about">
+      <div class="section__head reveal">
+        <p class="formula">=SHEET(&quot;About&quot;)</p>
+        <h2 class="section__title">A finance mind with an AI toolkit</h2>
+      </div>
+
+      <div class="about__grid">
+        <!-- PLACEHOLDER: swap this div for a real photo:
+             <img src="assets/img/profile.jpg" alt="Mayank Bharali" class="about__photo" />
+             Recommended: square image, at least 600×600px. -->
+        <div class="about__photo about__photo--placeholder reveal" role="img" aria-label="Placeholder for profile photo">
+          <span class="mono">[ Your photo here ]<br/>assets/img/profile.jpg</span>
+        </div>
+
+        <div class="about__copy reveal">
+          <p>
+            I'm a finance student who learns by building. Instead of waiting for an
+            internship to teach me modelling, I opened Excel and built a 12-month
+            revenue forecast, a cap table with SAFE conversion mechanics, and a
+            cash runway calculator — then pressure-tested them with bear/base/bull
+            scenario toggles.
+          </p>
+          <p>
+            What makes my approach different is the second toolkit: I'm a
+            <strong>non-technical AI power user</strong>. I use Claude Code, agentic
+            tools like Hermes Agent, and no-code automation to research faster,
+            structure messy data, and turn models into presentations — without
+            writing production code myself.
+          </p>
+          <p>
+            I'm most excited by the intersection of the two: AI-assisted valuation,
+            automated research workflows, and the operating models behind startups.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick facts row — styled like a row of spreadsheet cells.
+           To add a fact: copy one .fact div. -->
+      <div class="facts reveal">
+        <div class="fact">
+          <span class="fact__label mono">Degree</span>
+          <span class="fact__value">B.Com (Hons) Finance</span>
+        </div>
+        <div class="fact">
+          <span class="fact__label mono">University</span>
+          <span class="fact__value">CHRIST, Bengaluru</span>
+        </div>
+        <div class="fact">
+          <span class="fact__label mono">Class of</span>
+          <span class="fact__value">2027 · GPA 3.72/4</span>
+        </div>
+        <div class="fact">
+          <span class="fact__label mono">Focus</span>
+          <span class="fact__value">Valuation · AI workflows</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         TICKER
+         A stock-ticker style marquee of current interests.
+         Pure CSS animation (see .ticker in style.css). The list is
+         duplicated once so the loop is seamless — if you edit the
+         items, edit BOTH copies identically.
+         ========================================================== -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track mono">
+        <span>VALUATION ▲</span><span>DCF &amp; COMPS</span><span>CAP TABLES ▲</span>
+        <span>AI AGENTS</span><span>HERMES AGENT ▲</span><span>CLAUDE CODE</span>
+        <span>UNIT ECONOMICS ▲</span><span>GTM STRATEGY</span><span>STARTUPS ▲</span>
+        <span>WORKFLOW AUTOMATION</span>
+        <!-- duplicate for seamless loop -->
+        <span>VALUATION ▲</span><span>DCF &amp; COMPS</span><span>CAP TABLES ▲</span>
+        <span>AI AGENTS</span><span>HERMES AGENT ▲</span><span>CLAUDE CODE</span>
+        <span>UNIT ECONOMICS ▲</span><span>GTM STRATEGY</span><span>STARTUPS ▲</span>
+        <span>WORKFLOW AUTOMATION</span>
+      </div>
+    </div>
+
+    <!-- ==========================================================
+         PROJECTS
+         The core section. Each project is an <article class="card">.
+         Cards look like spreadsheet cells: on hover they get a green
+         "selected cell" border with a corner handle (pure CSS).
+
+         TO ADD A PROJECT: copy an entire <article class="card"> block
+         and edit the contents. TO REMOVE: delete the block.
+         Each card has:
+           .card__top     — tab-style title + tool tag
+           .card__metrics — 2-3 headline numbers (mono font)
+           .card__body    — bullets describing the work
+           .card__links   — buttons (PLACEHOLDER links, all "#")
+         ========================================================== -->
+    <section class="section" id="projects">
+      <div class="section__head reveal">
+        <p class="formula">=SHEET(&quot;Projects&quot;)</p>
+        <h2 class="section__title">Models I've built from scratch</h2>
+        <p class="section__sub">Independent projects — every assumption researched, every formula mine.</p>
+      </div>
+
+      <div class="cards">
+
+        <!-- ── PROJECT 1: Revenue forecast ─────────────────────── -->
+        <article class="card reveal">
+          <div class="card__top">
+            <h3 class="card__title">12-Month Revenue Forecast</h3>
+            <span class="tag mono">MS Excel · Financial modelling</span>
+          </div>
+          <div class="card__metrics mono">
+            <div><b>₹22.6L+</b><span>projected FY revenue</span></div>
+            <div><b>M9</b><span>base-case break-even</span></div>
+            <div><b>3</b><span>scenarios (bear/base/bull)</span></div>
+          </div>
+          <ul class="card__body">
+            <li>Funnel-based forecast for a digital-product startup — traffic → conversion → orders → revenue.</li>
+            <li>Full cost structure modelled (COGS, payment processing, platform fees, fixed opex) down to monthly EBT and net income.</li>
+            <li>Scenario toggle driven by five key drivers recalculates the entire P&amp;L from one dashboard switch.</li>
+            <li>Includes a linked 12-month cash runway calculator tracking burn against a ₹50L capital base.</li>
+          </ul>
+          <div class="card__links">
+            <!-- PLACEHOLDER: link to the Excel file, a Google Drive
+                 share, or a case-study page. -->
+            <a href="#" class="btn btn--small">View model</a>
+            <a href="#" class="btn btn--small btn--ghost">Case study</a>
+          </div>
+        </article>
+
+        <!-- ── PROJECT 2: Cap table ─────────────────────────────── -->
+        <article class="card reveal">
+          <div class="card__top">
+            <h3 class="card__title">Cap Table &amp; Dilution Model</h3>
+            <span class="tag mono">MS Excel · Valuation mechanics</span>
+          </div>
+          <div class="card__metrics mono">
+            <div><b>3</b><span>rounds: Founding → Series A</span></div>
+            <div><b>SAFE</b><span>cap vs. discount conversion</span></div>
+            <div><b>6</b><span>stakeholder classes tracked</span></div>
+          </div>
+          <ul class="card__body">
+            <li>Three-round cap table with SAFE note conversion — comparing valuation cap vs. discount rate to find the investor-favourable price.</li>
+            <li>Founder and ESOP dilution modelled across rounds, with a full ownership waterfall.</li>
+            <li>Price-per-share and new shares issued derived from pre-/post-money valuation mechanics.</li>
+          </ul>
+          <div class="card__links">
+            <!-- PLACEHOLDER links -->
+            <a href="#" class="btn btn--small">View model</a>
+            <a href="#" class="btn btn--small btn--ghost">Case study</a>
+          </div>
+        </article>
+
+        <!-- ── PROJECT 3: GTM plan ──────────────────────────────── -->
+        <article class="card reveal">
+          <div class="card__top">
+            <h3 class="card__title">90-Day GTM Plan — Leaping AI</h3>
+            <span class="tag mono">Market research · Claude Code</span>
+          </div>
+          <div class="card__metrics mono">
+            <div><b>$100K+</b><span>ARR target, milestone-based</span></div>
+            <div><b>6</b><span>channels ranked via ICE scoring</span></div>
+            <div><b>4-layer</b><span>ICP framework</span></div>
+          </div>
+          <ul class="card__body">
+            <li>Full 0→1 go-to-market plan for an AI startup, built with structured market research.</li>
+            <li>Four-layer ICP and a three-role buying-committee framework to define who buys and why.</li>
+            <li>Acquisition channels prioritised with ICE scoring (Impact × Confidence × Ease) and a hybrid pricing model.</li>
+          </ul>
+          <div class="card__links">
+            <!-- PLACEHOLDER links -->
+            <a href="#" class="btn btn--small">Read the plan</a>
+          </div>
+        </article>
+
+        <!-- ── PROJECT 4: HTML slideshow ───────────────────────── -->
+        <article class="card reveal">
+          <div class="card__top">
+            <h3 class="card__title">Forecast Model — Web Presentation</h3>
+            <span class="tag mono">HTML slideshow · Storytelling</span>
+          </div>
+          <div class="card__metrics mono">
+            <div><b>Web</b><span>browser-native slideshow</span></div>
+            <div><b>AI-built</b><span>designed with Claude Code</span></div>
+          </div>
+          <ul class="card__body">
+            <li>The 12-month revenue forecast, retold as an interactive HTML slide deck — model logic, assumptions and outputs made presentable for a non-finance audience.</li>
+            <li>Proof of the workflow I care about: build the analysis in Excel, then use AI tooling to communicate it.</li>
+          </ul>
+          <div class="card__links">
+            <!-- PLACEHOLDER: link to the live slideshow once hosted
+                 (you can deploy it on Cloudflare Pages too). -->
+            <a href="#" class="btn btn--small">Open slideshow</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SKILLS / TOOLKIT
+         Ledger-style rows: category on the left, items on the right.
+         To add a row: copy one .ledger__row div.
+         ========================================================== -->
+    <section class="section section--tint" id="skills">
+      <div class="section__head reveal">
+        <p class="formula">=SHEET(&quot;Toolkit&quot;)</p>
+        <h2 class="section__title">What I work with</h2>
+      </div>
+
+      <div class="ledger reveal">
+        <div class="ledger__row">
+          <span class="ledger__cat mono">01 · Modelling</span>
+          <p class="ledger__items">Revenue forecasting · Scenario analysis · Cap table &amp; dilution · Cash runway · Unit economics · Valuation fundamentals</p>
+        </div>
+        <div class="ledger__row">
+          <span class="ledger__cat mono">02 · Research</span>
+          <p class="ledger__items">Market research · Competitor analysis · Data-quality checking · Quantitative prioritisation (ICE)</p>
+        </div>
+        <div class="ledger__row">
+          <span class="ledger__cat mono">03 · AI &amp; automation</span>
+          <p class="ledger__items">Claude / Claude Code · Hermes Agent (exploring) · Make.com workflows · AI-assisted research &amp; presentation building</p>
+        </div>
+        <div class="ledger__row">
+          <span class="ledger__cat mono">04 · Tools</span>
+          <p class="ledger__items">MS Excel (advanced) · PowerPoint · Canva</p>
+        </div>
+        <div class="ledger__row">
+          <span class="ledger__cat mono">05 · Languages</span>
+          <p class="ledger__items">English (proficient) · Hindi (conversational) · Assamese (native)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         EXPERIENCE + CERTIFICATIONS + EDUCATION
+         Simple timeline rows. Dates are right-aligned in mono so
+         they line up like a ledger. To add an entry: copy a .entry.
+         ========================================================== -->
+    <section class="section" id="experience">
+      <div class="section__head reveal">
+        <p class="formula">=SHEET(&quot;Experience&quot;)</p>
+        <h2 class="section__title">Where I've been</h2>
+      </div>
+
+      <div class="entries">
+        <div class="entry reveal">
+          <div class="entry__main">
+            <h3 class="entry__title">Marketing Intern — Northstar Academy</h3>
+            <p class="entry__desc">Supported content planning and execution; explored workflow automation with Make.com to understand no-code, cross-functional tool integration.</p>
+          </div>
+          <span class="entry__date mono">Apr – May 2025</span>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__main">
+            <h3 class="entry__title">B.Com (Honours) Finance — CHRIST (Deemed to be University)</h3>
+            <p class="entry__desc">Bengaluru · GPA 3.72/4 · Batch 2023–2027.</p>
+          </div>
+          <span class="entry__date mono">Exp. May 2027</span>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__main">
+            <h3 class="entry__title">Advertising with Meta — Meta / Coursera</h3>
+            <p class="entry__desc">Certification in paid digital advertising fundamentals.</p>
+          </div>
+          <span class="entry__date mono">Mar 2025</span>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__main">
+            <h3 class="entry__title">Project Management for Managers — NPTEL</h3>
+            <p class="entry__desc">Certification covering project planning and execution frameworks.</p>
+          </div>
+          <span class="entry__date mono">Oct 2024</span>
+        </div>
+
+        <!-- PLACEHOLDER: add future internships / roles here by
+             copying one .entry block above. -->
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         CONTACT
+         Big closing statement + contact buttons.
+         ========================================================== -->
+    <section class="section section--contact" id="contact">
+      <div class="contact__inner reveal">
+        <p class="formula formula--light">=CONTACT()</p>
+        <h2 class="contact__title">Let's talk numbers.</h2>
+        <p class="contact__sub">
+          Open to financial research roles, startup analytics work,
+          and conversations about AI × finance.
+        </p>
+        <div class="contact__actions">
+          <a href="mailto:mayank.bharali2004@gmail.com" class="btn btn--light">mayank.bharali2004@gmail.com</a>
+          <!-- PLACEHOLDER: replace # with your LinkedIn profile URL -->
+          <a href="#" class="btn btn--ghost-light" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <!-- PLACEHOLDER: swap for PDF resume when available -->
+          <a href="data/Mayank_Bharali_Resume_DEShaw_FinRes.docx" class="btn btn--ghost-light" download>Download résumé</a>
+        </div>
+        <p class="contact__meta mono">Bengaluru, Karnataka · +91 6900762332</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer class="footer">
+    <p class="mono">© <span id="year">2026</span> Mayank Bharali — built with plain HTML/CSS/JS, deployed on Cloudflare Pages.</p>
+    <p class="mono footer__wink">=IF(interested, &quot;say hello&quot;, &quot;scroll up&quot;)</p>
+  </footer>
+
+  <!-- All interactivity & animation logic -->
+  <script src="js/main.js"></script>
+</body>
+</html>

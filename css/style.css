@@ -1,0 +1,692 @@
+/* ================================================================
+   MAYANK BHARALI — PORTFOLIO STYLESHEET
+   ----------------------------------------------------------------
+   TABLE OF CONTENTS (search for the number to jump):
+     [0] Design tokens (colors, fonts, spacing) — EDIT COLORS HERE
+     [1] Reset & base styles
+     [2] Shared utilities (.mono, .formula, .btn, .section, .reveal)
+     [3] Navigation
+     [4] Hero + live model panel + chart
+     [5] About section
+     [6] Ticker marquee
+     [7] Project cards
+     [8] Skills ledger
+     [9] Experience entries
+     [10] Contact + footer
+     [11] Responsive breakpoints
+     [12] Reduced motion (accessibility)
+
+   HOW THE THEME WORKS:
+   Every color used anywhere in the site is defined once as a CSS
+   variable in [0]. Change --green there and the whole site follows.
+   ================================================================ */
+
+
+/* [0] ─── DESIGN TOKENS ─────────────────────────────────────────── */
+:root {
+  /* Palette — "royal white, banknote green, silver, ink" */
+  --paper:      #FAFAF6;   /* royal white — page background          */
+  --paper-2:    #F2F4EE;   /* slightly deeper white for tint panels  */
+  --ink:        #101613;   /* near-black text                        */
+  --ink-soft:   #4C5650;   /* secondary text                         */
+  --green:      #0A6B3D;   /* primary green — accents, buttons       */
+  --green-deep: #07522E;   /* hover / dark panels                    */
+  --green-tint: #E3EFE6;   /* pale green fills                       */
+  --silver:     #C7CDC7;   /* silver hints — borders, dividers       */
+  --hairline:   #E0E4DD;   /* lightest rule lines                    */
+
+  /* Type — loaded in index.html <head> */
+  --font-display: "Young Serif", Georgia, serif;          /* headlines   */
+  --font-body:    "Schibsted Grotesk", system-ui, sans-serif; /* paragraphs */
+  --font-mono:    "IBM Plex Mono", Consolas, monospace;   /* numbers/labels */
+
+  /* Layout rhythm */
+  --max-width: 1120px;     /* page content width                     */
+  --pad-x: clamp(20px, 5vw, 48px);   /* horizontal page padding      */
+  --section-gap: clamp(72px, 12vh, 140px); /* space between sections */
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* smooth deceleration     */
+}
+
+
+/* [1] ─── RESET & BASE ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+/* When a nav link jumps to a section, leave room for the sticky
+   nav bar so headings don't hide underneath it. */
+[id] { scroll-margin-top: 72px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  /* Faint cell-grid background across the whole page — the
+     "workbook" texture. Very low contrast so text stays readable. */
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-attachment: fixed;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+/* Visible keyboard focus everywhere (accessibility) */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--green); color: #fff; }
+
+
+/* [2] ─── SHARED UTILITIES ──────────────────────────────────────── */
+
+/* Mono utility: numbers, labels, dates. tabular-nums makes digits
+   equal-width so figures align like spreadsheet columns. */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* The "formula" eyebrow — the site's signature label style.
+   Looks like an Excel formula: =SHEET("Projects") */
+.formula {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green);
+  background: var(--green-tint);
+  border: 1px solid var(--silver);
+  border-left: 3px solid var(--green);
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 20px;
+}
+.formula--light {           /* variant for the dark contact section */
+  color: var(--green-tint);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.25);
+  border-left-color: var(--green-tint);
+}
+
+/* Buttons. Base + variants. Slight lift on hover. */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 13px 26px;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  transition: transform 0.25s var(--ease), background 0.25s, color 0.25s, box-shadow 0.25s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(16,22,19,0.18); }
+
+.btn--primary { background: var(--green); border-color: var(--green); }
+.btn--primary:hover { background: var(--green-deep); border-color: var(--green-deep); }
+
+.btn--ghost {              /* outline style on light background */
+  background: transparent;
+  color: var(--ink);
+}
+.btn--ghost:hover { background: var(--ink); color: var(--paper); }
+
+.btn--small { padding: 8px 16px; font-size: 13.5px; }
+
+.btn--light {              /* solid style on the dark contact panel */
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--green-deep);
+}
+.btn--ghost-light {        /* outline style on the dark contact panel */
+  background: transparent;
+  border-color: rgba(255,255,255,0.4);
+  color: var(--paper);
+}
+.btn--ghost-light:hover { background: rgba(255,255,255,0.1); }
+
+/* Section skeleton: shared spacing + header layout */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-gap) var(--pad-x) 0;
+}
+.section__title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.5vw, 46px);
+  line-height: 1.12;
+  font-weight: 400;
+}
+.section__sub { color: var(--ink-soft); margin-top: 12px; max-width: 560px; }
+.section__head { margin-bottom: clamp(36px, 5vw, 56px); }
+
+/* Tinted full-bleed section (skills). The inner content still
+   respects --max-width via padding. */
+.section--tint {
+  max-width: none;
+  background: var(--paper-2);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  margin-top: var(--section-gap);
+  padding: clamp(56px, 8vh, 96px) var(--pad-x);
+}
+.section--tint .section__head,
+.section--tint .ledger { max-width: var(--max-width); margin-left: auto; margin-right: auto; }
+.section--tint .section__head { margin-bottom: clamp(28px, 4vw, 44px); }
+
+/* Scroll-reveal: elements start hidden + shifted down; JS adds
+   .is-visible when they enter the viewport. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+
+/* [3] ─── NAVIGATION ────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 250, 246, 0.88);
+  backdrop-filter: blur(10px);          /* frosted glass effect      */
+  border-bottom: 1px solid var(--hairline);
+}
+.nav__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.nav__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav__logo-cell {                       /* initials in a green cell  */
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background: var(--green);
+  padding: 4px 8px;
+}
+.nav__logo-name { font-weight: 600; font-size: 15px; }
+
+.nav__links { display: flex; align-items: center; gap: 4px; }
+
+/* Nav links styled like spreadsheet sheet-tabs: flat, bottom border
+   appears on hover/active. .is-active is set by JS scroll-spy. */
+.nav__link {
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink-soft);
+  padding: 8px 14px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.nav__link:hover { color: var(--ink); background: var(--green-tint); }
+.nav__link.is-active { color: var(--green-deep); border-bottom-color: var(--green); }
+
+.nav__cta {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 8px 16px;
+  margin-left: 12px;
+  transition: background 0.2s;
+}
+.nav__cta:hover { background: var(--green); }
+
+/* Hamburger — hidden on desktop, shown in the mobile breakpoint */
+.nav__toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav__toggle span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--ink);
+  margin: 5px 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s;
+}
+/* X shape when menu is open */
+.nav__toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+.nav__toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* [4] ─── HERO ──────────────────────────────────────────────────── */
+.hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(56px, 10vh, 120px) var(--pad-x) 48px;
+  position: relative;
+}
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;   /* copy slightly wider than panel */
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+
+/* Load-in choreography: each element fades up with a stagger.
+   (Class .loaded is added to <body> by JS once the page is ready;
+   without JS everything is simply visible — safe fallback.) */
+.hero__eyebrow, .hero__title, .hero__sub, .hero__actions, .hero__meta, .hero__panel {
+  animation: heroRise 0.9s var(--ease) backwards;
+}
+.hero__title  { animation-delay: 0.08s; }
+.hero__sub    { animation-delay: 0.18s; }
+.hero__actions{ animation-delay: 0.28s; }
+.hero__meta   { animation-delay: 0.36s; }
+.hero__panel  { animation-delay: 0.25s; }
+
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(38px, 5.4vw, 62px);
+  line-height: 1.08;
+  margin-bottom: 22px;
+}
+.hero__title em {                      /* the one italic accent word */
+  font-style: italic;
+  color: var(--green);
+}
+.hero__sub { color: var(--ink-soft); max-width: 520px; margin-bottom: 30px; }
+.hero__sub strong { color: var(--ink); }
+.hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero__meta { margin-top: 22px; font-size: 12.5px; color: var(--ink-soft); }
+
+.hero__scroll {
+  display: inline-block;
+  margin-top: 48px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.hero__scroll:hover { color: var(--green); }
+
+/* ── The live model panel (signature element) ─────────────────── */
+.hero__panel {
+  background: #fff;
+  border: 1px solid var(--silver);
+  box-shadow: 0 20px 50px -18px rgba(16, 22, 19, 0.25);
+}
+
+/* Fake title bar with sheet tabs */
+.panel__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px 0;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--paper-2);
+}
+.panel__tab {
+  font-size: 11.5px;
+  padding: 6px 12px;
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+  border-bottom: none;
+}
+.panel__tab--active {
+  background: #fff;
+  color: var(--green-deep);
+  font-weight: 600;
+  border-color: var(--hairline);
+  transform: translateY(1px);          /* tucks tab into the border  */
+}
+.panel__status {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--green);
+  animation: blink 2.4s infinite;      /* gentle "live" pulse        */
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.panel__body { padding: 22px 20px 20px; }
+
+/* Chart styles. The line "draws" itself: JS measures the path
+   length, sets stroke-dasharray = length, then animates
+   stroke-dashoffset from length → 0. */
+.panel__chart { width: 100%; height: auto; margin-bottom: 18px; }
+.chart__grid line { stroke: var(--hairline); stroke-width: 1; }
+.chart__area { fill: var(--green-tint); opacity: 0; transition: opacity 1s ease 1.2s; }
+.chart__line {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.chart__marker {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0;
+  transition: opacity 0.6s ease 1.6s;
+}
+.chart__marker-label { font-size: 9px; fill: var(--ink-soft); opacity: 0; transition: opacity 0.6s ease 1.8s; }
+.chart__dot { fill: var(--green); opacity: 0; transition: opacity 0.4s ease 1.5s; }
+
+/* Once JS adds .chart-done to the panel, fade in area + markers */
+.chart-done .chart__area, .chart-done .chart__marker,
+.chart-done .chart__marker-label, .chart-done .chart__dot { opacity: 1; }
+.chart-done .chart__area { opacity: 0.9; }
+
+/* Metric rows under the chart */
+.panel__metrics { display: flex; flex-direction: column; }
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 2px;
+  border-top: 1px dashed var(--silver);
+}
+.metric__label { font-size: 11.5px; color: var(--ink-soft); }
+.metric__value { font-size: 16px; font-weight: 600; color: var(--green-deep); }
+
+
+/* [5] ─── ABOUT ─────────────────────────────────────────────────── */
+.about__grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+/* Photo (or placeholder). Sharp corners + green frame offset gives
+   it an intentional, printed look. */
+.about__photo {
+  aspect-ratio: 1;
+  border: 1px solid var(--silver);
+  box-shadow: 10px 10px 0 var(--green-tint), 10px 10px 0 1px var(--silver);
+}
+.about__photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.about__copy p { margin-bottom: 18px; color: var(--ink-soft); }
+.about__copy p:last-child { margin-bottom: 0; }
+.about__copy strong { color: var(--ink); }
+
+/* Quick-fact cells: a single row of bordered boxes that share
+   borders like adjacent spreadsheet cells. */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: clamp(36px, 5vw, 56px);
+  border: 1px solid var(--silver);
+  background: #fff;
+}
+.fact {
+  padding: 18px 20px;
+  border-right: 1px solid var(--hairline);
+}
+.fact:last-child { border-right: none; }
+.fact__label { display: block; font-size: 11px; color: var(--green); text-transform: uppercase; margin-bottom: 6px; }
+.fact__value { font-weight: 600; font-size: 15px; }
+
+
+/* [6] ─── TICKER ────────────────────────────────────────────────── */
+/* A stock-ticker marquee. The track holds two identical copies of
+   the items; translating -50% then looping is therefore seamless. */
+.ticker {
+  margin-top: var(--section-gap);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background: var(--ink);
+  overflow: hidden;
+  padding: 13px 0;
+}
+.ticker__track {
+  display: flex;
+  gap: 48px;
+  width: max-content;
+  animation: tick 28s linear infinite;
+}
+.ticker__track span { font-size: 12.5px; color: var(--paper); white-space: nowrap; }
+.ticker__track span:nth-child(odd) { color: #7FC79E; }  /* alternate green */
+.ticker:hover .ticker__track { animation-play-state: paused; }
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+
+/* [7] ─── PROJECT CARDS ─────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Each card mimics a spreadsheet cell. On hover it becomes a
+   "selected cell": thick green border + the little square handle
+   Excel shows at the bottom-right corner (via ::after). */
+.card {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--silver);
+  padding: 26px 26px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s var(--ease);
+}
+.card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 0 1px var(--green), 0 16px 40px -16px rgba(10, 107, 61, 0.35);
+  transform: translateY(-4px);
+}
+.card::after {                          /* Excel selection handle    */
+  content: "";
+  position: absolute;
+  right: -5px; bottom: -5px;
+  width: 9px; height: 9px;
+  background: var(--green);
+  border: 2px solid var(--paper);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.card:hover::after { opacity: 1; }
+
+.card__top { margin-bottom: 18px; }
+.card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.tag {                                  /* tool/skill tag under title */
+  display: inline-block;
+  font-size: 11px;
+  color: var(--green-deep);
+  background: var(--green-tint);
+  padding: 3px 10px;
+  text-transform: uppercase;
+}
+
+/* Headline numbers row — mono + tabular so they read like output */
+.card__metrics {
+  display: flex;
+  gap: 22px;
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 16px;
+}
+.card__metrics div { display: flex; flex-direction: column; }
+.card__metrics b { font-size: 19px; color: var(--green-deep); font-weight: 600; }
+.card__metrics span { font-size: 10.5px; color: var(--ink-soft); margin-top: 2px; }
+
+.card__body {
+  list-style: none;
+  flex-grow: 1;                        /* pushes links to the bottom */
+  margin-bottom: 20px;
+}
+.card__body li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+.card__body li::before {               /* green "▸" style bullet     */
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+.card__links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+
+/* [8] ─── SKILLS LEDGER ─────────────────────────────────────────── */
+.ledger { border-top: 1px solid var(--silver); }
+.ledger__row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--silver);
+  transition: background 0.2s, padding-left 0.3s var(--ease);
+}
+.ledger__row:hover { background: var(--green-tint); padding-left: 14px; }
+.ledger__cat { font-size: 12.5px; font-weight: 600; color: var(--green-deep); padding-top: 3px; }
+.ledger__items { color: var(--ink-soft); font-size: 15.5px; }
+
+
+/* [9] ─── EXPERIENCE ENTRIES ────────────────────────────────────── */
+.entries { border-top: 1px solid var(--silver); }
+.entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 26px 4px;
+  border-bottom: 1px solid var(--silver);
+}
+.entry__title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.entry__desc { color: var(--ink-soft); font-size: 15px; max-width: 640px; }
+.entry__date { font-size: 12.5px; color: var(--green-deep); white-space: nowrap; padding-top: 4px; }
+
+
+/* [10] ─── CONTACT + FOOTER ─────────────────────────────────────── */
+/* Full-bleed dark green closing panel. */
+.section--contact {
+  max-width: none;
+  margin-top: var(--section-gap);
+  background: var(--green-deep);
+  /* darker cell grid on the green background */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  color: var(--paper);
+  padding: clamp(72px, 12vh, 130px) var(--pad-x);
+  text-align: center;
+}
+.contact__inner { max-width: 720px; margin: 0 auto; }
+.contact__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 5.5vw, 58px);
+  margin-bottom: 16px;
+}
+.contact__sub { color: rgba(255,255,255,0.75); margin-bottom: 36px; }
+.contact__actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.contact__meta { font-size: 12.5px; color: rgba(255,255,255,0.55); }
+
+.footer {
+  text-align: center;
+  padding: 34px var(--pad-x);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.footer__wink { margin-top: 6px; color: var(--green); }
+
+
+/* [11] ─── RESPONSIVE ───────────────────────────────────────────── */
+/* Tablet and below: hero stacks, cards go single column */
+@media (max-width: 900px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__panel { max-width: 480px; }
+  .cards { grid-template-columns: 1fr; }
+  .about__grid { grid-template-columns: 1fr; }
+  .about__photo { max-width: 300px; }
+  .facts { grid-template-columns: repeat(2, 1fr); }
+  .fact:nth-child(2n) { border-right: none; }
+  .fact:nth-child(-n+2) { border-bottom: 1px solid var(--hairline); }
+  .ledger__row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* Mobile: hamburger menu replaces inline nav links */
+@media (max-width: 720px) {
+  .nav__toggle { display: block; }
+  .nav__logo-name { display: none; }
+  .nav__links {
+    /* Dropdown panel under the nav bar; hidden until .is-open */
+    position: absolute;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--paper);
+    border-bottom: 1px solid var(--silver);
+    padding: 12px var(--pad-x) 20px;
+    display: none;
+  }
+  .nav__links.is-open { display: flex; }
+  .nav__link { padding: 12px 8px; border-bottom: 1px solid var(--hairline); }
+  .nav__cta { margin: 14px 8px 0; text-align: center; }
+
+  .entry { flex-direction: column; gap: 6px; }
+  .entry__date { order: -1; }         /* date above the title on mobile */
+  .facts { grid-template-columns: 1fr; }
+  .fact { border-right: none; border-bottom: 1px solid var(--hairline); }
+  .fact:last-child { border-bottom: none; }
+  .contact__actions { flex-direction: column; align-items: stretch; }
+}
+
+
+/* [12] ─── REDUCED MOTION ───────────────────────────────────────── */
+/* Users with "reduce motion" enabled get a still page: no hero
+   choreography, no ticker scroll, reveals appear instantly.
+   (js/main.js also checks this and skips counters/chart drawing.) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__eyebrow, .hero__title, .hero__sub, .hero__actions,
+  .hero__meta, .hero__panel { animation: none; }
+  .ticker__track { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .chart__area, .chart__marker, .chart__marker-label, .chart__dot { opacity: 1; transition: none; }
+  .panel__status { animation: none; }
+  .btn, .card { transition: none; }
+}
