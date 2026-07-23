@@ -3,8 +3,8 @@
 A fully static portfolio site (plain HTML + CSS + JavaScript, no frameworks, no build step).
 Design concept: **"the workbook"** — since the portfolio is built on Excel models, the site
 borrows spreadsheet vernacular: formula-style section labels, cell-grid backgrounds, project
-cards that highlight like selected cells, and a hero panel with a spinnable 3D
-currency cube alongside live model figures.
+cards that highlight like selected cells, and a hero built around a spinnable
+3D currency cube floating directly on the page.
 
 ---
 
@@ -58,18 +58,18 @@ The most important block is **[0] Design tokens**: every color, font and spacing
 value is a CSS variable there. Change `--green` once and the whole site follows.
 
 ### js/main.js
-Five small, independent modules (numbered comments match):
+Small, independent modules (numbered comments match):
 1. **Rubik's cube** — builds the hero's 3D CSS cube (6 faces × 9 currency-symbol
    tiles) and handles drag-to-spin, idle auto-rotate, and arrow-key control. Tile
    colours and symbols are arrays at the top of the module; the cube's size is the
-   `--cube` value in `style.css`.
-2. **Count-up metrics** — any element with `data-count="22.6"` animates from 0.
-3. **Scroll reveals** — an IntersectionObserver adds `.is-visible` to `.reveal`
+   `--cube` value in `style.css`. The cube floats directly on the page background —
+   there's no card/box around it.
+2. **Scroll reveals** — an IntersectionObserver adds `.is-visible` to `.reveal`
    elements when they enter the viewport.
-4. **Nav scroll-spy + mobile menu** — highlights the current section's link;
+3. **Nav scroll-spy + mobile menu** — highlights the current section's link;
    hamburger toggle on mobile.
-5. **Footer year** — auto-updates.
-6. **Cursor trail ("data dust")** — tiny green cell-squares and mono glyphs
+4. **Footer year** — auto-updates.
+5. **Cursor trail ("data dust")** — tiny green cell-squares and mono glyphs
    (₹ % ▲ digits) trail the mouse on a canvas overlay. Sweeping the cursor
    back through the trail scatters it; clicking fires a small burst. All
    tuning knobs (density, lifetime, repel radius) live in the `CONFIG`
@@ -126,14 +126,13 @@ the `download` attribute.
    <img src="assets/img/profile.jpg" alt="Mayank Bharali" class="about__photo" />
    ```
 
-### Update the hero metrics
-The three numbers in the hero panel are driven by data attributes:
-```html
-<dd class="metric__value mono" data-count="22.6" data-decimals="1"
-    data-prefix="₹" data-suffix="L+">₹0.0L+</dd>
-```
-Change `data-count` (and prefix/suffix) — the count-up animation adapts
-automatically. The text inside the tag is only the no-JS fallback.
+### Customise the Rubik's cube
+Tile colours and currency symbols are two arrays at the top of the `rubiksCube`
+module in `js/main.js` (search "RUBIK"): `COLORS` (CSS classes, all mapped to
+site-palette variables in `style.css`) and `SYMBOLS` (the glyphs shown on each
+tile). Edit either array to change what appears on the cube. The cube's edge
+length is the `--cube` value on `.rubik-stage` in `style.css` (with a smaller
+override for mobile).
 
 ### Edit the ticker (scrolling interests strip)
 In `index.html` find `<div class="ticker">`. The items appear **twice**

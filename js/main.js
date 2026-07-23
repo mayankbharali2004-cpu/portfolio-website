@@ -2,7 +2,7 @@
    MAYANK BHARALI — PORTFOLIO INTERACTIONS
    ----------------------------------------------------------------
    Plain vanilla JavaScript, no libraries. Six jobs:
-     [1] HERO   — build/spin the Rubik's cube + count the metrics up
+     [1] HERO   — build and spin the Rubik's cube
      [2] REVEAL — fade-in sections as they scroll into view
      [3] NAV    — highlight the link for the section on screen
      [4] MENU   — open/close the mobile hamburger menu
@@ -144,43 +144,6 @@ const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").mat
     })();
   }
 })();
-
-
-/* [1b] ─── HERO: count-up metrics ───────────────────────────────
-   Any element with data-count animates from 0 to that number.
-   Optional attributes:
-     data-decimals — decimal places to show (default 0)
-     data-prefix   — text before the number  (e.g. "₹", "Month ")
-     data-suffix   — text after the number   (e.g. "L+")
-   Example: <dd data-count="22.6" data-decimals="1"
-                data-prefix="₹" data-suffix="L+">                 */
-function animateCount(el) {
-  const target   = parseFloat(el.dataset.count);
-  const decimals = parseInt(el.dataset.decimals || "0", 10);
-  const prefix   = el.dataset.prefix || "";
-  const suffix   = el.dataset.suffix || "";
-  const duration = 1400; // ms
-
-  if (prefersReduced) {
-    el.textContent = prefix + target.toFixed(decimals) + suffix;
-    return;
-  }
-
-  const start = performance.now();
-  function tick(now) {
-    const t = Math.min((now - start) / duration, 1);
-    // ease-out cubic: fast start, gentle landing on the final value
-    const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
-    if (t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-// Start counters slightly after the chart begins drawing.
-setTimeout(() => {
-  document.querySelectorAll("[data-count]").forEach(animateCount);
-}, prefersReduced ? 0 : 700);
 
 
 /* [2] ─── SCROLL REVEALS ────────────────────────────────────────

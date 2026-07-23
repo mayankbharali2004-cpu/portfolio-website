@@ -7,7 +7,7 @@
        HOW THIS FILE IS ORGANISED (top to bottom):
          1. <head>   : metadata, fonts, stylesheet link
          2. <nav>    : sticky top navigation (sheet-tab style)
-         3. <header> : hero — headline + animated "live model" panel
+         3. <header> : hero — headline + draggable 3D currency cube
          4. <main>   : sections in order:
               #about      — bio, photo placeholder, quick facts
               (ticker)    — scrolling marquee of current interests
@@ -22,7 +22,7 @@
        Because the portfolio is built on Excel models, the site
        borrows spreadsheet vernacular — section labels look like
        formulas, project cards behave like selected cells, and the
-       hero shows a live model output. Search for the word
+       hero features a spinnable currency cube. Search for the word
        "PLACEHOLDER" in this file to find everything you still
        need to fill in (links, photo, etc.).
        ============================================================ -->
@@ -81,10 +81,9 @@
   <!-- ==========================================================
        HERO
        Left: eyebrow + headline + subline + CTAs.
-       Right: the "live model" panel — a draggable 3D Rubik's cube of
-       currency symbols, plus three metrics that count up. The numbers
-       come from the real revenue-forecast project.
-       All animation logic is in js/main.js (search "RUBIK" / "HERO").
+       Right: a draggable 3D Rubik's cube of currency symbols, floating
+       directly on the page background (no card around it).
+       All animation logic is in js/main.js (search "RUBIK").
        ========================================================== -->
   <header class="hero" id="top">
     <div class="hero__inner">
@@ -114,43 +113,16 @@
         <p class="hero__meta mono">Bengaluru, India · Open to financial research roles</p>
       </div>
 
-      <!-- The live model panel (signature element) -->
-      <div class="hero__panel" aria-label="Highlights from the 12-month revenue forecast model">
-        <!-- Fake window/sheet-tab header -->
-        <div class="panel__bar">
-          <span class="panel__tab panel__tab--active mono">forecast.xlsx</span>
-          <span class="panel__tab mono">cap_table.xlsx</span>
-          <span class="panel__status mono">↻ drag to spin</span>
-        </div>
-
-        <div class="panel__body">
-          <!-- Rubik's cube: the hero's signature element. It's a CSS 3D
-               cube (6 faces × 9 tiles, every tile a world-currency
-               symbol on an on-theme tile colour) that the visitor can
-               spin by dragging — it rotates in place, never leaving its
-               spot. The whole cube (tiles, colours, drag + idle spin) is
-               built in js/main.js (search "RUBIK"). This empty stage is
-               just the mount point + a no-JS-safe container. -->
-          <div class="rubik-stage" id="rubikStage" role="img"
-               aria-label="Interactive 3D cube of world-currency symbols — drag, or use arrow keys, to spin it"></div>
-
-          <!-- Metric rows. data-count / data-decimals / data-prefix /
-               data-suffix drive the count-up animation in main.js. -->
-          <dl class="panel__metrics">
-            <div class="metric">
-              <dt class="metric__label mono">Projected FY revenue</dt>
-              <dd class="metric__value mono" data-count="22.6" data-decimals="1" data-prefix="₹" data-suffix="L+">₹0.0L+</dd>
-            </div>
-            <div class="metric">
-              <dt class="metric__label mono">Base-case break-even</dt>
-              <dd class="metric__value mono" data-count="9" data-prefix="Month ">Month 0</dd>
-            </div>
-            <div class="metric">
-              <dt class="metric__label mono">Funding rounds modelled</dt>
-              <dd class="metric__value mono" data-count="3" data-suffix=" + SAFE">0 + SAFE</dd>
-            </div>
-          </dl>
-        </div>
+      <!-- The live model cube (signature element). Sits directly on the
+           hero's own background — no card/box around it, just the cube.
+           It's a CSS 3D cube (6 faces × 9 tiles, every tile a
+           world-currency symbol on an on-theme tile colour) that the
+           visitor can spin by dragging — it rotates in place, never
+           leaving its spot. Built entirely in js/main.js (search
+           "RUBIK"); this stage is just the mount point. -->
+      <div class="hero__cube">
+        <div class="rubik-stage" id="rubikStage" role="img"
+             aria-label="Interactive 3D cube of world-currency symbols — drag, or use arrow keys, to spin it"></div>
       </div>
 
     </div>

@@ -286,14 +286,14 @@ a { color: inherit; }
 /* Load-in choreography: each element fades up with a stagger.
    (Class .loaded is added to <body> by JS once the page is ready;
    without JS everything is simply visible — safe fallback.) */
-.hero__eyebrow, .hero__title, .hero__sub, .hero__actions, .hero__meta, .hero__panel {
+.hero__eyebrow, .hero__title, .hero__sub, .hero__actions, .hero__meta, .hero__cube {
   animation: heroRise 0.9s var(--ease) backwards;
 }
 .hero__title  { animation-delay: 0.08s; }
 .hero__sub    { animation-delay: 0.18s; }
 .hero__actions{ animation-delay: 0.28s; }
 .hero__meta   { animation-delay: 0.36s; }
-.hero__panel  { animation-delay: 0.25s; }
+.hero__cube   { animation-delay: 0.25s; }
 
 @keyframes heroRise {
   from { opacity: 0; transform: translateY(26px); }
@@ -325,56 +325,24 @@ a { color: inherit; }
 }
 .hero__scroll:hover { color: var(--green); }
 
-/* ── The live model panel (signature element) ─────────────────── */
-.hero__panel {
-  background: #fff;
-  border: 1px solid var(--silver);
-  box-shadow: 0 20px 50px -18px rgba(16, 22, 19, 0.25);
-}
+/* ── The live model cube (signature element) ───────────────────
+   No card/box here on purpose — the cube sits directly on the
+   page's own background. .hero__cube is just the grid slot + the
+   entrance-animation hook — left as a plain block so .rubik-stage
+   (a block child) stretches to its full width and can centre/offset
+   the cube within it; all its visuals live on .rubik-stage. */
+.hero__cube { display: block; }
 
-/* Fake title bar with sheet tabs */
-.panel__bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 14px 0;
-  border-bottom: 1px solid var(--hairline);
-  background: var(--paper-2);
-}
-.panel__tab {
-  font-size: 11.5px;
-  padding: 6px 12px;
-  color: var(--ink-soft);
-  border: 1px solid transparent;
-  border-bottom: none;
-}
-.panel__tab--active {
-  background: #fff;
-  color: var(--green-deep);
-  font-weight: 600;
-  border-color: var(--hairline);
-  transform: translateY(1px);          /* tucks tab into the border  */
-}
-.panel__status {
-  margin-left: auto;
-  font-size: 10.5px;
-  color: var(--green);
-  animation: blink 2.4s infinite;      /* gentle "live" pulse        */
-}
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-
-.panel__body { padding: 18px 20px 20px; }
-
-/* ── Rubik's cube (replaces the old sparkline) ─────────────────
+/* ── Rubik's cube ────────────────────────────────────────────
    A CSS 3D cube built and spun by js/main.js. The stage is the
    fixed spot it lives in; the cube rotates in place inside it.
    --cube sets the edge length; --half (its centre offset) is used
    to push each face out to the surface. */
 .rubik-stage {
-  --cube: 158px;
+  --cube: 188px;
   --half: calc(var(--cube) / 2);
   position: relative;
-  height: clamp(210px, 30vh, 250px);
+  height: clamp(230px, 32vh, 280px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -383,6 +351,11 @@ a { color: inherit; }
   cursor: grab;
   touch-action: none;              /* dragging the cube never scrolls */
   user-select: none;
+  /* Nudged right of dead-centre so it lines up better against the
+     copy column — purely a visual offset, doesn't affect the drag/
+     spin math (that's all rotation, no position change). Reset to
+     0 on the stacked mobile layout below, where it's centred instead. */
+  transform: translateX(26px);
   /* Soft on-theme glow behind the cube — echoes the reference photo's
      coloured backdrop without leaving the palette. */
   background: radial-gradient(130px 120px at 50% 44%, var(--green-tint), transparent 72%);
@@ -469,18 +442,6 @@ a { color: inherit; }
   0%, 100% { transform: translateX(-50%) scale(0.85); opacity: 0.5; }
   50%      { transform: translateX(-50%) scale(1.05); opacity: 0.8; }
 }
-
-/* Metric rows under the cube */
-.panel__metrics { display: flex; flex-direction: column; }
-.metric {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 10px 2px;
-  border-top: 1px dashed var(--silver);
-}
-.metric__label { font-size: 11.5px; color: var(--ink-soft); }
-.metric__value { font-size: 16px; font-weight: 600; color: var(--green-deep); }
 
 
 /* [5] ─── ABOUT ─────────────────────────────────────────────────── */
@@ -715,8 +676,8 @@ a { color: inherit; }
 /* Tablet and below: hero stacks, cards go single column */
 @media (max-width: 900px) {
   .hero__inner { grid-template-columns: 1fr; }
-  .hero__panel { max-width: 480px; }
-  .rubik-stage { --cube: 138px; }   /* smaller cube on narrow screens */
+  .hero__cube { max-width: 480px; }
+  .rubik-stage { --cube: 158px; transform: none; }   /* smaller + re-centred on narrow screens */
   .cards { grid-template-columns: 1fr; }
   .about__grid { grid-template-columns: 1fr; }
   .about__photo { max-width: 300px; }
@@ -758,14 +719,13 @@ a { color: inherit; }
 /* Users with "reduce motion" enabled get a still page: no hero
    choreography, no ticker scroll, reveals appear instantly. The cube
    stops auto-spinning and bobbing (it can still be dragged on demand).
-   (js/main.js also checks this and skips counters + idle cube spin.) */
+   (js/main.js also checks this and skips the idle cube spin.) */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero__eyebrow, .hero__title, .hero__sub, .hero__actions,
-  .hero__meta, .hero__panel { animation: none; }
+  .hero__meta, .hero__cube { animation: none; }
   .ticker__track { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .rubik-float, .rubik__shadow { animation: none; }
-  .panel__status { animation: none; }
   .btn, .card { transition: none; }
 }
