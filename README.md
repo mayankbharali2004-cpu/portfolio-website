@@ -119,12 +119,12 @@ If you'd rather link to a Google Drive share or a hosted case-study page
 instead of a downloadable file, just swap the `href` for that URL and drop
 the `download` attribute.
 
-### Add your photo
-1. Save a square image (600×600px+) as `assets/img/profile.jpg`.
-2. In `index.html`, find the `about__photo--placeholder` div and replace it with:
-   ```html
-   <img src="assets/img/profile.jpg" alt="Mayank Bharali" class="about__photo" />
-   ```
+### Swap your photo
+Replace `assets/img/profile.jpg` with a new image of the same name — any
+aspect ratio works, since `.about__photo` in `style.css` uses `object-fit:
+cover` to crop it into the square frame. If a face ends up cropped oddly,
+adjust `object-position` on that same rule (e.g. `50% 15%` shifts the crop
+upward).
 
 ### Customise the Rubik's cube
 Tile colours and currency symbols are two arrays at the top of the `rubiksCube`
@@ -195,5 +195,5 @@ Things to fill in before sharing the site (search `PLACEHOLDER` in `index.html`)
 - [x] LinkedIn URL (contact section button)
 - [x] Revenue forecast, cap table, and GTM plan files → `data/projects/`
 - [x] HTML slideshow deck → `revenue-forecast-deck/`
-- [ ] Profile photo → `assets/img/profile.jpg`
+- [x] Profile photo → `assets/img/profile.jpg`
 - [ ] PDF version of the resume (nicer than .docx in a browser)
