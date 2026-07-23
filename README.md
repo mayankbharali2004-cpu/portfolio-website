@@ -3,7 +3,8 @@
 A fully static portfolio site (plain HTML + CSS + JavaScript, no frameworks, no build step).
 Design concept: **"the workbook"** — since the portfolio is built on Excel models, the site
 borrows spreadsheet vernacular: formula-style section labels, cell-grid backgrounds, project
-cards that highlight like selected cells, and a hero panel showing live model output.
+cards that highlight like selected cells, and a hero panel with a spinnable 3D
+currency cube alongside live model figures.
 
 ---
 
@@ -58,8 +59,10 @@ value is a CSS variable there. Change `--green` once and the whole site follows.
 
 ### js/main.js
 Five small, independent modules (numbered comments match):
-1. **Chart drawing** — the hero sparkline uses the stroke-dashoffset trick to
-   "draw" itself on load.
+1. **Rubik's cube** — builds the hero's 3D CSS cube (6 faces × 9 currency-symbol
+   tiles) and handles drag-to-spin, idle auto-rotate, and arrow-key control. Tile
+   colours and symbols are arrays at the top of the module; the cube's size is the
+   `--cube` value in `style.css`.
 2. **Count-up metrics** — any element with `data-count="22.6"` animates from 0.
 3. **Scroll reveals** — an IntersectionObserver adds `.is-visible` to `.reveal`
    elements when they enter the viewport.

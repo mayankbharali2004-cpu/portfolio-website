@@ -2,7 +2,7 @@
    MAYANK BHARALI — PORTFOLIO INTERACTIONS
    ----------------------------------------------------------------
    Plain vanilla JavaScript, no libraries. Six jobs:
-     [1] HERO   — draw the sparkline + count the metrics up
+     [1] HERO   — build/spin the Rubik's cube + count the metrics up
      [2] REVEAL — fade-in sections as they scroll into view
      [3] NAV    — highlight the link for the section on screen
      [4] MENU   — open/close the mobile hamburger menu
@@ -21,32 +21,129 @@
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 
-/* [1] ─── HERO: chart line drawing ──────────────────────────────
-   Technique: set the SVG path's dash pattern to one dash exactly
-   as long as the path, offset it fully (line invisible), then
-   animate the offset to 0 so the line appears to draw itself.   */
-const chartLine = document.getElementById("chartLine");
-const heroPanel = document.querySelector(".hero__panel");
+/* [1] ─── HERO: RUBIK'S CUBE ────────────────────────────────────
+   The hero's signature element. Builds a CSS 3D cube (6 faces × 9
+   tiles, every tile a world-currency symbol on an on-theme colour)
+   inside #rubikStage, then lets the visitor SPIN it by dragging —
+   it always rotates in place, never leaving its spot. Left alone,
+   it slowly auto-rotates with a gentle wobble. Arrow keys work too.
 
-if (chartLine && heroPanel) {
-  if (prefersReduced) {
-    // No animation: just show everything immediately.
-    heroPanel.classList.add("chart-done");
-  } else {
-    const length = chartLine.getTotalLength();
-    chartLine.style.strokeDasharray = length;
-    chartLine.style.strokeDashoffset = length;
+   WHY BUILT IN JS: 54 tiles would be a wall of markup in the HTML.
+   Generating them here keeps index.html clean and spreads the
+   colours/symbols evenly. Retune it via the arrays + numbers below. */
+(function rubiksCube() {
+  const stage = document.getElementById("rubikStage");
+  if (!stage) return;
 
-    // Kick off shortly after load so it syncs with the hero fade-in.
-    setTimeout(() => {
-      chartLine.style.transition = "stroke-dashoffset 1.6s cubic-bezier(0.22, 1, 0.36, 1)";
-      chartLine.style.strokeDashoffset = "0";
-      // .chart-done fades in the area fill, break-even marker & dot
-      // (their transition delays are defined in style.css).
-      heroPanel.classList.add("chart-done");
-    }, 500);
+  // Tile colour classes (all defined in css/style.css, all from the
+  // site palette) and the currency glyphs that ride on them.
+  const COLORS = ["rt-green", "rt-deep", "rt-mid", "rt-tint", "rt-silver", "rt-paper", "rt-ink"];
+  const SYMBOLS = ["₹", "$", "€", "£", "¥", "₿", "₩", "₽", "¢", "₴", "₫", "₪", "₦", "฿"];
+  const FACES = ["front", "back", "right", "left", "top", "bottom"];
+
+  // Build the cube DOM: float wrapper (CSS bob) → .rubik (JS spins it)
+  // → 6 faces → 9 tiles each.
+  const float = document.createElement("div");
+  float.className = "rubik-float";
+  const cube = document.createElement("div");
+  cube.className = "rubik";
+
+  FACES.forEach((face, f) => {
+    const faceEl = document.createElement("div");
+    faceEl.className = `rubik__face rubik__face--${face}`;
+    for (let i = 0; i < 9; i++) {
+      const tile = document.createElement("span");
+      // Offset arithmetic spreads colours/symbols so nothing clusters
+      // and every face looks balanced rather than random.
+      const color = COLORS[(i * 3 + f * 5) % COLORS.length];
+      let symbol = SYMBOLS[(i + f * 2) % SYMBOLS.length];
+      // Centre of the front face is the rupee — his home currency.
+      if (face === "front" && i === 4) symbol = "₹";
+      tile.className = `rubik__tile ${color}`;
+      tile.textContent = symbol;
+      faceEl.appendChild(tile);
+    }
+    cube.appendChild(faceEl);
+  });
+
+  const shadow = document.createElement("div");
+  shadow.className = "rubik__shadow";
+
+  float.appendChild(cube);
+  stage.appendChild(shadow);
+  stage.appendChild(float);
+
+  // ── Rotation state (degrees) ──
+  let rx = -24, ry = -30;   // current tilt
+  let vx = 0, vy = 0;       // momentum after a drag/fling
+  let dragging = false;
+  let px = 0, py = 0;       // last pointer position
+  let t = 0;                // idle clock for the wobble
+
+  function apply() {
+    cube.style.setProperty("--rx", rx.toFixed(2) + "deg");
+    cube.style.setProperty("--ry", ry.toFixed(2) + "deg");
   }
-}
+  apply();
+
+  // Drag = spin. Because only the rotation changes (never position),
+  // the cube stays fixed in its spot while turning.
+  stage.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    stage.classList.add("is-grabbing");
+    px = e.clientX; py = e.clientY;
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - px, dy = e.clientY - py;
+    px = e.clientX; py = e.clientY;
+    ry += dx * 0.55;
+    rx = Math.max(-85, Math.min(85, rx - dy * 0.55));
+    vy = dx * 0.55;          // remember speed so a flick keeps spinning
+    vx = -dy * 0.55;
+    apply();
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove("is-grabbing");
+    try { stage.releasePointerCapture(e.pointerId); } catch (_) {}
+  }
+  stage.addEventListener("pointerup", endDrag);
+  stage.addEventListener("pointercancel", endDrag);
+
+  // Keyboard access: focus the cube and nudge it with the arrow keys.
+  stage.tabIndex = 0;
+  stage.addEventListener("keydown", (e) => {
+    const step = 12;
+    if (e.key === "ArrowLeft")       { ry -= step; }
+    else if (e.key === "ArrowRight") { ry += step; }
+    else if (e.key === "ArrowUp")    { rx = Math.max(-85, rx - step); }
+    else if (e.key === "ArrowDown")  { rx = Math.min(85, rx + step); }
+    else return;
+    e.preventDefault();
+    apply();
+  });
+
+  // Idle loop: let any fling decay, then settle into a slow constant
+  // spin with a gentle vertical wobble. Skipped for reduced-motion
+  // users — the cube sits still but can still be dragged on demand.
+  if (!prefersReduced) {
+    (function frame() {
+      if (!dragging) {
+        vy += (0.15 - vy) * 0.02;   // ease toward the auto-spin speed
+        vx *= 0.9;                  // vertical fling fades out
+        ry += vy;
+        rx += vx;
+        t += 0.016;
+        rx += ((-22 + Math.sin(t) * 5) - rx) * 0.02;  // wobble to rest tilt
+        apply();
+      }
+      requestAnimationFrame(frame);
+    })();
+  }
+})();
 
 
 /* [1b] ─── HERO: count-up metrics ───────────────────────────────

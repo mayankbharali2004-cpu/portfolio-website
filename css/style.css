@@ -363,37 +363,114 @@ a { color: inherit; }
 }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-.panel__body { padding: 22px 20px 20px; }
+.panel__body { padding: 18px 20px 20px; }
 
-/* Chart styles. The line "draws" itself: JS measures the path
-   length, sets stroke-dasharray = length, then animates
-   stroke-dashoffset from length → 0. */
-.panel__chart { width: 100%; height: auto; margin-bottom: 18px; }
-.chart__grid line { stroke: var(--hairline); stroke-width: 1; }
-.chart__area { fill: var(--green-tint); opacity: 0; transition: opacity 1s ease 1.2s; }
-.chart__line {
-  fill: none;
-  stroke: var(--green);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* ── Rubik's cube (replaces the old sparkline) ─────────────────
+   A CSS 3D cube built and spun by js/main.js. The stage is the
+   fixed spot it lives in; the cube rotates in place inside it.
+   --cube sets the edge length; --half (its centre offset) is used
+   to push each face out to the surface. */
+.rubik-stage {
+  --cube: 158px;
+  --half: calc(var(--cube) / 2);
+  position: relative;
+  height: clamp(210px, 30vh, 250px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  perspective: 1050px;             /* depth of the 3D projection      */
+  cursor: grab;
+  touch-action: none;              /* dragging the cube never scrolls */
+  user-select: none;
+  /* Soft on-theme glow behind the cube — echoes the reference photo's
+     coloured backdrop without leaving the palette. */
+  background: radial-gradient(130px 120px at 50% 44%, var(--green-tint), transparent 72%);
 }
-.chart__marker {
-  stroke: var(--ink-soft);
-  stroke-width: 1;
-  stroke-dasharray: 4 4;
-  opacity: 0;
-  transition: opacity 0.6s ease 1.6s;
+.rubik-stage.is-grabbing { cursor: grabbing; }
+
+/* Wrapper does ONLY the gentle vertical bob, so it never competes
+   with the JS-driven rotation applied to .rubik inside it. */
+.rubik-float { transform-style: preserve-3d; animation: rubikBob 6s ease-in-out infinite; }
+@keyframes rubikBob {
+  0%, 100% { transform: translateY(-7px); }
+  50%      { transform: translateY(7px); }
 }
-.chart__marker-label { font-size: 9px; fill: var(--ink-soft); opacity: 0; transition: opacity 0.6s ease 1.8s; }
-.chart__dot { fill: var(--green); opacity: 0; transition: opacity 0.4s ease 1.5s; }
 
-/* Once JS adds .chart-done to the panel, fade in area + markers */
-.chart-done .chart__area, .chart-done .chart__marker,
-.chart-done .chart__marker-label, .chart-done .chart__dot { opacity: 1; }
-.chart-done .chart__area { opacity: 0.9; }
+/* The cube. JS updates --rx / --ry every frame to spin it. */
+.rubik {
+  position: relative;
+  width: var(--cube);
+  height: var(--cube);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, -24deg)) rotateY(var(--ry, -30deg));
+}
 
-/* Metric rows under the chart */
+/* Each face is a 3×3 grid of tiles on a dark "plastic" body; the
+   gaps let that body show through, like a real cube's frame. */
+.rubik__face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 6px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  background: #0A0D0B;             /* cube body (near-black)          */
+  backface-visibility: hidden;     /* faces turned away disappear     */
+}
+/* Push each face out to its side of the cube. */
+.rubik__face--front  { transform: rotateY(0deg)    translateZ(var(--half)); }
+.rubik__face--back   { transform: rotateY(180deg)  translateZ(var(--half)); }
+.rubik__face--right  { transform: rotateY(90deg)   translateZ(var(--half)); }
+.rubik__face--left   { transform: rotateY(-90deg)  translateZ(var(--half)); }
+.rubik__face--top    { transform: rotateX(90deg)   translateZ(var(--half)); }
+.rubik__face--bottom { transform: rotateX(-90deg)  translateZ(var(--half)); }
+
+/* A single sticker: rounded tile + centred currency glyph. */
+.rubik__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22%;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: calc(var(--cube) * 0.12);
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+              0 1px 2px rgba(0, 0, 0, 0.28);
+}
+/* Tile colour palette — every value is straight from the site tokens
+   in [0], so the cube can only ever look "on brand". */
+.rt-green  { background: var(--green);      color: #EAF3EC; }
+.rt-deep   { background: var(--green-deep); color: #EAF3EC; }
+.rt-mid    { background: #3C8F63;           color: #06341E; }
+.rt-tint   { background: var(--green-tint); color: var(--green-deep); }
+.rt-silver { background: var(--silver);     color: var(--ink); }
+.rt-paper  { background: var(--paper);      color: var(--green); }
+.rt-ink    { background: #1B2622;           color: #7FC79E; }
+
+/* Soft contact shadow on the "ground", pulsing with the bob. */
+.rubik__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  width: 150px;
+  height: 24px;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(7, 82, 46, 0.30), transparent 70%);
+  filter: blur(3px);
+  z-index: 0;
+  animation: rubikShadow 6s ease-in-out infinite;
+}
+@keyframes rubikShadow {
+  0%, 100% { transform: translateX(-50%) scale(0.85); opacity: 0.5; }
+  50%      { transform: translateX(-50%) scale(1.05); opacity: 0.8; }
+}
+
+/* Metric rows under the cube */
 .panel__metrics { display: flex; flex-direction: column; }
 .metric {
   display: flex;
@@ -639,6 +716,7 @@ a { color: inherit; }
 @media (max-width: 900px) {
   .hero__inner { grid-template-columns: 1fr; }
   .hero__panel { max-width: 480px; }
+  .rubik-stage { --cube: 138px; }   /* smaller cube on narrow screens */
   .cards { grid-template-columns: 1fr; }
   .about__grid { grid-template-columns: 1fr; }
   .about__photo { max-width: 300px; }
@@ -678,15 +756,16 @@ a { color: inherit; }
 
 /* [12] ─── REDUCED MOTION ───────────────────────────────────────── */
 /* Users with "reduce motion" enabled get a still page: no hero
-   choreography, no ticker scroll, reveals appear instantly.
-   (js/main.js also checks this and skips counters/chart drawing.) */
+   choreography, no ticker scroll, reveals appear instantly. The cube
+   stops auto-spinning and bobbing (it can still be dragged on demand).
+   (js/main.js also checks this and skips counters + idle cube spin.) */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero__eyebrow, .hero__title, .hero__sub, .hero__actions,
   .hero__meta, .hero__panel { animation: none; }
   .ticker__track { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .chart__area, .chart__marker, .chart__marker-label, .chart__dot { opacity: 1; transition: none; }
+  .rubik-float, .rubik__shadow { animation: none; }
   .panel__status { animation: none; }
   .btn, .card { transition: none; }
 }

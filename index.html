@@ -81,10 +81,10 @@
   <!-- ==========================================================
        HERO
        Left: eyebrow + headline + subline + CTAs.
-       Right: the "live model" panel — an SVG sparkline that draws
-       itself on page load, plus three metrics that count up.
-       The numbers come from the real revenue-forecast project.
-       All animation logic is in js/main.js (search "HERO").
+       Right: the "live model" panel — a draggable 3D Rubik's cube of
+       currency symbols, plus three metrics that count up. The numbers
+       come from the real revenue-forecast project.
+       All animation logic is in js/main.js (search "RUBIK" / "HERO").
        ========================================================== -->
   <header class="hero" id="top">
     <div class="hero__inner">
@@ -120,30 +120,19 @@
         <div class="panel__bar">
           <span class="panel__tab panel__tab--active mono">forecast.xlsx</span>
           <span class="panel__tab mono">cap_table.xlsx</span>
-          <span class="panel__status mono">● live output</span>
+          <span class="panel__status mono">↻ drag to spin</span>
         </div>
 
         <div class="panel__body">
-          <!-- Sparkline: 12 monthly revenue points. The path "draws"
-               itself using stroke-dashoffset (see js/main.js).
-               The dashed vertical line marks Month 9 = break-even. -->
-          <svg class="panel__chart" viewBox="0 0 320 120" role="img" aria-label="Revenue ramp over 12 months, break-even at month 9">
-            <!-- light grid, like cell borders -->
-            <g class="chart__grid">
-              <line x1="0" y1="30" x2="320" y2="30"/>
-              <line x1="0" y1="60" x2="320" y2="60"/>
-              <line x1="0" y1="90" x2="320" y2="90"/>
-            </g>
-            <!-- soft area fill under the curve -->
-            <path class="chart__area" d="M10,112 L38,108 L66,103 L94,96 L122,90 L150,82 L178,72 L206,60 L234,46 L262,34 L290,20 L310,12 L310,120 L10,120 Z"/>
-            <!-- the revenue line itself (animated) -->
-            <path class="chart__line" id="chartLine" d="M10,112 L38,108 L66,103 L94,96 L122,90 L150,82 L178,72 L206,60 L234,46 L262,34 L290,20 L310,12"/>
-            <!-- break-even marker at month 9 -->
-            <line class="chart__marker" x1="234" y1="10" x2="234" y2="115"/>
-            <text class="chart__marker-label mono" x="238" y="18">M9 break-even</text>
-            <!-- end-point dot -->
-            <circle class="chart__dot" cx="310" cy="12" r="4"/>
-          </svg>
+          <!-- Rubik's cube: the hero's signature element. It's a CSS 3D
+               cube (6 faces × 9 tiles, every tile a world-currency
+               symbol on an on-theme tile colour) that the visitor can
+               spin by dragging — it rotates in place, never leaving its
+               spot. The whole cube (tiles, colours, drag + idle spin) is
+               built in js/main.js (search "RUBIK"). This empty stage is
+               just the mount point + a no-JS-safe container. -->
+          <div class="rubik-stage" id="rubikStage" role="img"
+               aria-label="Interactive 3D cube of world-currency symbols — drag, or use arrow keys, to spin it"></div>
 
           <!-- Metric rows. data-count / data-decimals / data-prefix /
                data-suffix drive the count-up animation in main.js. -->
