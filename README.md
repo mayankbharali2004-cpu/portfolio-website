@@ -193,7 +193,7 @@ You can later attach a custom domain (e.g. `mayankbharali.com`) under
 Things to fill in before sharing the site (search `PLACEHOLDER` in `index.html`):
 
 - [x] LinkedIn URL (contact section button)
-- [x] Revenue forecast, cap table, and GTM plan files → `data/projects/`
+- [x] Revenue forecast, cap table, DCF, and GTM plan files → `data/projects/`
 - [x] HTML slideshow deck → `revenue-forecast-deck/`
 - [x] Profile photo → `assets/img/profile.jpg`
 - [ ] PDF version of the resume (nicer than .docx in a browser)
