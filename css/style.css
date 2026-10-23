@@ -242,18 +242,6 @@ a { color: inherit; }
 .nav__link:hover { color: var(--ink); background: var(--green-tint); }
 .nav__link.is-active { color: var(--green-deep); border-bottom-color: var(--green); }
 
-.nav__cta {
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--paper);
-  background: var(--ink);
-  padding: 8px 16px;
-  margin-left: 12px;
-  transition: background 0.2s;
-}
-.nav__cta:hover { background: var(--green); }
-
 /* Hamburger — hidden on desktop, shown in the mobile breakpoint */
 .nav__toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
 .nav__toggle span {
@@ -709,7 +697,6 @@ a { color: inherit; }
   }
   .nav__links.is-open { display: flex; }
   .nav__link { padding: 12px 8px; border-bottom: 1px solid var(--hairline); }
-  .nav__cta { margin: 14px 8px 0; text-align: center; }
 
   .entry { flex-direction: column; gap: 6px; }
   .entry__date { order: -1; }         /* date above the title on mobile */

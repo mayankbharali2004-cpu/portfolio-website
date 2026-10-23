@@ -18,7 +18,7 @@ Portfolio Website/
 ├── js/
 │   └── main.js       ← all animations & interactions
 ├── data/
-│   ├── Mayank_Bharali_Resume_...docx   ← resume (linked by the nav "Résumé ↓" button)
+│   ├── Mayank_Bharali_Resume_...docx   ← resume (not linked from the site)
 │   └── projects/     ← downloadable model files (xlsx/pptx) for the project cards
 ├── assets/
 │   └── img/          ← put your photo & project screenshots here
@@ -143,12 +143,12 @@ In `index.html` find `<div class="ticker">`. The items appear **twice**
 2. Add `<a href="#my-section" class="nav__link">Label</a>` inside `nav__links`.
 The scroll-spy picks it up automatically.
 
-### Swap the resume
-Drop the new file into `data/` and update the link that points at it (the
-"Résumé" button in the nav — search for `data/Mayank` in `index.html`). The
-contact section no longer has a résumé button; to bring it back, copy the
-LinkedIn button there and point it at the file with the `download` attribute.
-A PDF is recommended over .docx so it opens in the browser.
+### Résumé download (currently removed)
+The site has no résumé download button anywhere. To add one back, put the
+file in `data/` and add a link such as
+`<a href="data/your-resume.pdf" class="btn btn--small" download>Résumé</a>`
+wherever you want it (e.g. next to the LinkedIn button in the contact
+section). A PDF is recommended over .docx so it opens in the browser.
 
 ### Update the HTML slideshow deck
 The "Open slideshow" card links to `revenue-forecast-deck/index.html` — a
@@ -198,4 +198,3 @@ Things to fill in before sharing the site (search `PLACEHOLDER` in `index.html`)
 - [x] Revenue forecast, cap table, DCF, and GTM plan files → `data/projects/`
 - [x] HTML slideshow deck → `revenue-forecast-deck/`
 - [x] Profile photo → `assets/img/profile.jpg`
-- [ ] PDF version of the resume (nicer than .docx in a browser)
