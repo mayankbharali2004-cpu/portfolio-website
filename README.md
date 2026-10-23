@@ -18,7 +18,7 @@ Portfolio Website/
 ├── js/
 │   └── main.js       ← all animations & interactions
 ├── data/
-│   ├── Mayank_Bharali_Resume_...docx   ← resume (linked by the ↓ buttons)
+│   ├── Mayank_Bharali_Resume_...docx   ← resume (linked by the nav "Résumé ↓" button)
 │   └── projects/     ← downloadable model files (xlsx/pptx) for the project cards
 ├── assets/
 │   └── img/          ← put your photo & project screenshots here
@@ -144,9 +144,11 @@ In `index.html` find `<div class="ticker">`. The items appear **twice**
 The scroll-spy picks it up automatically.
 
 ### Swap the resume
-Drop the new file into `data/` and update the two links that point at it
-(one in the nav, one in the contact section — search for `data/` in
-`index.html`). A PDF is recommended over .docx so it opens in the browser.
+Drop the new file into `data/` and update the link that points at it (the
+"Résumé" button in the nav — search for `data/Mayank` in `index.html`). The
+contact section no longer has a résumé button; to bring it back, copy the
+LinkedIn button there and point it at the file with the `download` attribute.
+A PDF is recommended over .docx so it opens in the browser.
 
 ### Update the HTML slideshow deck
 The "Open slideshow" card links to `revenue-forecast-deck/index.html` — a

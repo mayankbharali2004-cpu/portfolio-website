@@ -623,6 +623,16 @@ a { color: inherit; }
 }
 .entry__title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .entry__desc { color: var(--ink-soft); font-size: 15px; max-width: 640px; }
+/* Bullet list inside an entry (same green "▸" marker as the project cards) */
+.entry__list { list-style: none; margin-top: 12px; max-width: 640px; }
+.entry__list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.entry__list li::before { content: "▸"; position: absolute; left: 0; color: var(--green); }
 .entry__date { font-size: 12.5px; color: var(--green-deep); white-space: nowrap; padding-top: 4px; }
 
 
